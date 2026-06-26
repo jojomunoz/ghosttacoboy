@@ -4,75 +4,61 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>ghosttacoboy — el plan de esta noche</title>
-<meta name="description" content="Un plan distinto cada vez. Se adapta a la hora, el clima, el día y la luna. Como yo." />
+<meta name="description" content="Un plan distinto cada vez. Lee la hora, el clima, el día y la luna. Como yo." />
 <meta property="og:title" content="qué hacemos — ahora mismo" />
-<meta property="og:description" content="Se adapta a la hora, el clima, el día y la luna. Distinto cada vez." />
+<meta property="og:description" content="Lee la hora, el clima, el día y la luna. Distinto cada vez." />
 <meta property="og:image" content="../img/moon.jpg" />
 <meta name="theme-color" content="#0A0A0C" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Space+Mono:wght@0,400;0,700&display=swap" rel="stylesheet" />
 <style>
-  :root{
-    --void:#0A0A0C; --ash:#131319; --line:#23232b;
-    --bone:#ECE8E1; --mute:#7f828c; --blood:#E11221; --glow:#FF2A1E;
-  }
+  :root{ --void:#0A0A0C; --ash:#131319; --line:#23232b; --bone:#ECE8E1; --mute:#7f828c; --blood:#E11221; --glow:#FF2A1E; }
   *{box-sizing:border-box; margin:0; padding:0}
   html{-webkit-text-size-adjust:100%}
-  body{
-    background:var(--void); color:var(--bone);
-    font-family:"Space Mono",ui-monospace,monospace;
-    line-height:1.55; letter-spacing:.01em;
-    min-height:100svh; display:flex; flex-direction:column;
+  body{ background:var(--void); color:var(--bone); font-family:"Space Mono",ui-monospace,monospace;
+    line-height:1.55; letter-spacing:.01em; min-height:100svh; display:flex; flex-direction:column;
     padding:max(22px,env(safe-area-inset-top)) 22px calc(30px + env(safe-area-inset-bottom));
-    max-width:520px; margin:0 auto; -webkit-font-smoothing:antialiased; overflow-x:hidden;
-  }
+    max-width:520px; margin:0 auto; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
   body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.045;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-
   .top{display:flex; justify-content:space-between; align-items:baseline; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--mute); gap:10px}
   .brand{color:var(--bone); font-weight:700; letter-spacing:.04em; text-transform:none; font-size:14px}
   .ctx{text-align:right; line-height:1.5}
-  .ctx b{color:var(--blood); font-variant-numeric:tabular-nums}
-
-  main{flex:1; display:flex; flex-direction:column; justify-content:center; padding:30px 0}
-  .kicker{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--mute); margin-bottom:14px}
+  #clock,#wx{color:var(--bone)}
+  main{flex:1; display:flex; flex-direction:column; justify-content:center; padding:26px 0}
+  .kicker{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--mute); margin-bottom:14px; min-height:1.4em}
   .kicker b{color:var(--bone)}
-
   .plan{opacity:0; transform:translateY(10px)}
-  .plan.in{opacity:1; transform:none; transition:opacity .5s ease, transform .5s cubic-bezier(.16,1,.3,1)}
-  .act{font-family:"Bricolage Grotesque",system-ui,sans-serif; font-weight:800;
-       font-size:clamp(34px,11vw,54px); line-height:1.0; letter-spacing:-.03em; margin:2px 0 16px}
-  .line{font-size:16px; color:#d7d4cc; margin-bottom:22px; max-width:32ch}
+  .plan.in{opacity:1; transform:none; transition:opacity .45s ease, transform .45s cubic-bezier(.16,1,.3,1)}
+  .act{font-family:"Bricolage Grotesque",system-ui,sans-serif; font-weight:800; font-size:clamp(34px,11vw,54px); line-height:1.0; letter-spacing:-.03em; margin:2px 0 16px}
+  .act.think{color:var(--mute); animation:pulse 1.1s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.45}50%{opacity:.9}}
+  .line{font-size:16px; color:#d7d4cc; margin-bottom:22px; max-width:32ch; min-height:1.5em}
   .meta{border-top:1px solid var(--line); padding-top:15px; display:grid; gap:9px; font-size:13.5px}
   .meta .row{display:flex; gap:10px}
   .meta .k{color:var(--mute); width:96px; flex:none; letter-spacing:.03em}
   .meta .v{color:var(--bone)}
-  .meta .v .red{color:var(--blood)}
-
-  .controls{margin-top:28px; display:flex; flex-direction:column; gap:12px}
-  button{font-family:inherit; font-size:15px; cursor:pointer; border:1px solid var(--line);
-    background:transparent; color:var(--bone); padding:15px 18px; text-align:left;
-    display:flex; justify-content:space-between; align-items:center; gap:12px;
-    transition:border-color .2s ease, color .2s ease, background .2s ease; min-height:50px; width:100%}
-  button .ic{color:var(--mute); transition:transform .3s ease, color .2s ease}
-  button:hover{border-color:#3a3a44}
-  button:hover .ic{color:var(--blood)}
+  .moodwrap{margin-top:24px}
+  .mood{width:100%; font-family:inherit; font-size:15px; color:var(--bone); background:var(--ash);
+    border:1px solid var(--line); padding:14px 16px; min-height:50px; outline:none; -webkit-appearance:none; border-radius:0}
+  .mood::placeholder{color:#5a5d66}
+  .mood:focus{border-color:#3a3a44}
+  .controls{margin-top:12px; display:flex; flex-direction:column; gap:12px}
+  button{font-family:inherit; font-size:15px; cursor:pointer; border:1px solid var(--line); background:transparent; color:var(--bone);
+    padding:15px 18px; text-align:left; display:flex; justify-content:space-between; align-items:center; gap:12px;
+    transition:border-color .2s, color .2s, background .2s; min-height:50px; width:100%}
+  button .ic{color:var(--mute); transition:transform .3s, color .2s}
+  button:hover{border-color:#3a3a44} button:hover .ic{color:var(--blood)}
   button:focus-visible{outline:2px solid var(--glow); outline-offset:2px}
   #reroll:active .ic{transform:rotate(180deg); color:var(--blood)}
-  .cta{border-color:var(--blood); color:#fff; background:#16060880}
-  .cta:hover{background:var(--blood)}
+  .cta{border-color:var(--blood); color:#fff; background:#16060880} .cta:hover{background:var(--blood)}
   a.ctaw{text-decoration:none; display:block}
-
   .note{font-size:12px; color:var(--mute); margin-top:20px; line-height:1.7}
   .note .red{color:var(--blood)}
   footer{font-size:11px; color:var(--mute); line-height:1.7; margin-top:24px; border-top:1px solid var(--line); padding-top:15px}
   .tag{color:var(--blood)}
-
-  @media (prefers-reduced-motion: reduce){
-    .plan,.plan.in{transition:none!important; transform:none!important; opacity:1!important}
-    #reroll:active .ic{transform:none}
-  }
+  @media (prefers-reduced-motion: reduce){ .plan,.plan.in{transition:none!important;transform:none!important;opacity:1!important} .act.think{animation:none} #reroll:active .ic{transform:none} }
 </style>
 </head>
 <body>
@@ -93,6 +79,10 @@
       </div>
     </div>
 
+    <div class="moodwrap" id="moodwrap" hidden>
+      <input class="mood" id="mood" placeholder="escribe un mood… o dale a sorpréndeme" autocomplete="off" enterkeyhint="go" aria-label="escribe un mood" />
+    </div>
+
     <div class="controls">
       <button id="reroll">dame otro plan <span class="ic">↻</span></button>
       <a class="ctaw" href="https://instagram.com/ghosttacoboy"><button class="cta" tabindex="-1">si te gusta alguno, escríbeme <span class="ic">→</span></button></a>
@@ -108,11 +98,16 @@
 
 <script>
 (function(){
+  // ====== PEGÁ AQUÍ LA URL DE TU WORKER PARA ACTIVAR LA IA EN VIVO ======
+  var API = '';   // ej: 'https://ghosttacoboy.tucuenta.workers.dev'
+  // ======================================================================
+
   var $=function(id){return document.getElementById(id)};
   var pick=function(a){return a[Math.floor(Math.random()*a.length)]};
-  var LAT=8.98, LON=-79.52; // ciudad de panamá
+  var LAT=8.98, LON=-79.52;
+  var dayNames=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  var insisted=false;
 
-  // ---------- luna ----------
   function moonInfo(d){
     var syn=29.530588853, ref=Date.UTC(2000,0,6,18,14);
     var age=(((d.getTime()-ref)/86400000)%syn+syn)%syn;
@@ -120,14 +115,11 @@
     var full=illum>0.92, nw=illum<0.07;
     return {illum:illum, full:full, nw:nw, name: full?'llena':nw?'nueva':(age<syn/2?'creciente':'menguante')};
   }
-
-  // ---------- banco de ideas (la "IA" va aquí, ya escrita) ----------
-  // t: contextos donde encaja -> 'early'(19-23) 'late'(0-2) 'deep'(2-6) 'wknd' 'rain' 'clear' 'fullmoon' 'any'
   var ideas=[
     {a:'una vuelta sin rumbo', l:'el carro, la ciudad, ningún destino. tú eliges cada giro en la esquina.', t:['any'], p:['la cinta costera','la calzada de amador']},
     {a:'manejar hasta que…', l:'hasta que se acabe la gasolina o la conversación, lo que pase primero.', t:['late','deep'], p:['ningún lugar fijo, el carro y ya']},
-    {a:'eres la musa', l:'tú al frente del lente, yo atrás, que es donde me siento seguro. salís en fotos que parecen de revista.', t:['early','clear'], p:['el casco viejo','la calzada de amador']},
-    {a:'cazar la luna', l:'hoy está '+'…'+'. buscamos el ángulo y te tomo la foto con ella de fondo.', t:['fullmoon'], p:['un estacionamiento alto sobre la bahía']},
+    {a:'eres la musa', l:'tú al frente del lente, yo atrás, que es donde me siento seguro. sales en fotos que parecen de revista.', t:['early','clear'], p:['el casco viejo','la calzada de amador']},
+    {a:'cazar la luna', l:'buscamos el ángulo y te tomo la foto con ella de fondo.', t:['fullmoon'], p:['un estacionamiento alto sobre la bahía']},
     {a:'misión antojo', l:'mcdonald’s, gasolinera, una lata de monster. cero glamour, máxima data.', t:['late','deep'], p:['donde caiga, esa es la gracia']},
     {a:'buscar el mejor pollo de la madrugada', l:'es una investigación seria. tenemos toda la noche.', t:['late','deep'], p:['las calles que nadie recomienda']},
     {a:'luces rojas', l:'te llevo a donde el bajo no deja pensar. toque, disco, lo que esté pegando.', t:['wknd','early'], p:['vía argentina','el casco viejo']},
@@ -142,92 +134,93 @@
     {a:'sesión en el parqueo', l:'tú decides el piso, yo la luz. los parqueos vacíos son el mejor estudio gratis de la ciudad.', t:['any','clear'], p:['un edificio cualquiera, el piso que elijas']}
   ];
   var sounds=['lil peep, bajito','xxxtentacion','$uicideboy$ ralentizado','algo de metal pa despertar','una playlist sin nombre','reggaetón viejo, lo admito'];
-
-  function openLine(h){
-    if(h>=19 && h<24) return 'a esta hora casi todo aguanta.';
-    if(h>=0 && h<2) return 'ya solo los bares y las gasolineras.';
-    if(h>=2 && h<5) return 'gasolinera, mcdonald’s 24h y la calle. nada más.';
-    return 'no hay nada abierto. solo nosotros.';
-  }
+  function openLine(h){ if(h>=19&&h<24)return 'a esta hora casi todo aguanta.'; if(h>=0&&h<2)return 'ya solo los bares y las gasolineras.'; if(h>=2&&h<5)return 'gasolinera, mcdonald’s 24h y la calle. nada más.'; return 'no hay nada abierto. solo nosotros.'; }
 
   function ctxNow(){
-    var d=new Date(), h=d.getHours(), day=d.getDay();
-    var tags=[];
-    if(h>=19 && h<24) tags.push('early');
-    if(h>=0 && h<2) tags.push('late');
-    if(h>=2 && h<6) tags.push('deep');
-    if(day===5||day===6) tags.push('wknd');
-    var m=moonInfo(d); if(m.full) tags.push('fullmoon');
-    if(window.__wx){ if(window.__wx.rain) tags.push('rain'); else if(window.__wx.clear) tags.push('clear'); }
-    return {h:h, day:day, isDay:(h>=7&&h<18), tags:tags, moon:m};
+    var d=new Date(), h=d.getHours(), day=d.getDay(); var tags=[];
+    if(h>=19&&h<24)tags.push('early'); if(h>=0&&h<2)tags.push('late'); if(h>=2&&h<6)tags.push('deep');
+    if(day===5||day===6)tags.push('wknd');
+    var m=moonInfo(d); if(m.full)tags.push('fullmoon');
+    if(window.__wx){ if(window.__wx.rain)tags.push('rain'); else if(window.__wx.clear)tags.push('clear'); }
+    return {h:h, day:day, dayName:dayNames[day], isDay:(h>=7&&h<18), tags:tags, moon:m, wx:(window.__wxtxt||'')};
   }
-
-  function matches(idea, tags){
-    if(idea.t.indexOf('any')>=0) return true;
-    for(var i=0;i<idea.t.length;i++){ if(tags.indexOf(idea.t[i])>=0) return true; }
-    return false;
-  }
-
+  function matches(idea,tags){ if(idea.t.indexOf('any')>=0)return true; for(var i=0;i<idea.t.length;i++){if(tags.indexOf(idea.t[i])>=0)return true;} return false; }
   var lastA=null;
   function buildPlan(c){
     var rain=c.tags.indexOf('rain')>=0;
-    var pool=ideas.filter(function(x){return matches(x,c.tags) && !(rain && x.t.indexOf('clear')>=0)});
-    if(pool.length<2) pool=ideas.filter(function(x){return !(rain && x.t.indexOf('clear')>=0)}); // fallback
-    pool=pool.filter(function(x){return x.a!==lastA}); if(!pool.length) pool=ideas;
+    var pool=ideas.filter(function(x){return matches(x,c.tags)&&!(rain&&x.t.indexOf('clear')>=0)});
+    if(pool.length<2)pool=ideas.filter(function(x){return !(rain&&x.t.indexOf('clear')>=0)});
+    pool=pool.filter(function(x){return x.a!==lastA}); if(!pool.length)pool=ideas;
     var idea=pick(pool); lastA=idea.a;
-    var line=idea.l;
-    if(idea.a==='cazar la luna') line='la luna está '+c.moon.name+' ('+Math.round(c.moon.illum*100)+'%). buscamos el ángulo y te tomo la foto con ella de fondo.';
+    var line=idea.l; if(idea.a==='cazar la luna')line='la luna está '+c.moon.name+' ('+Math.round(c.moon.illum*100)+'%). '+idea.l;
     return {act:idea.a, line:line, sound:pick(sounds), place:pick(idea.p||['donde caiga']), open:openLine(c.h)};
   }
 
-  function render(){
-    var c=ctxNow();
+  // ---- IA en vivo (si API está configurado) ----
+  async function aiPlan(c, mood){
+    if(!API) return null;
+    try{
+      var ctl=new AbortController(), to=setTimeout(function(){ctl.abort()},9000);
+      var r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},signal:ctl.signal,
+        body:JSON.stringify({hora:c.h, dia:c.dayName, clima:c.wx, luna:c.moon.name,
+          lluvia:c.tags.indexOf('rain')>=0, finde:c.tags.indexOf('wknd')>=0, mood:mood||''})});
+      clearTimeout(to);
+      if(!r.ok) return null;
+      var j=await r.json();
+      if(!j||!j.act) return null;
+      return {act:String(j.act).toLowerCase(), line:j.line||'', sound:j.sound||pick(sounds), place:j.place||'', open:j.open||openLine(c.h)};
+    }catch(e){ return null; }
+  }
+
+  function show(p, thinking){
     var pl=$('plan'); pl.classList.remove('in'); void pl.offsetWidth;
-    $('dayname').textContent=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'][c.day];
-    $('moonname').textContent=c.moon.name;
-    if(c.isDay){
-      $('kicker').innerHTML='son las <b>'+String(c.h).padStart(2,'0')+':00</b> · de día yo no funciono';
-      $('act').textContent='de día no existo';
-      $('line').textContent='esto sirve de noche. volvé después de medianoche. o insistí abajo, allá tú.';
-      $('sound').textContent='—'; $('place').textContent='tu cama, deberías dormir'; $('open').textContent='todo, pero no es la hora';
-      $('reroll').firstChild.textContent='igual, sorpréndeme ';
-    }else{
-      var p=buildPlan(c);
-      $('kicker').innerHTML='para <b>ahora mismo</b>, según cómo está la noche';
-      $('act').textContent=p.act;
-      $('line').textContent=p.line;
-      $('sound').textContent=p.sound;
-      $('place').textContent=p.place;
-      $('open').innerHTML=p.open;
-      $('reroll').firstChild.textContent='dame otro plan ';
-    }
+    $('act').classList.toggle('think', !!thinking);
+    $('act').textContent=p.act; $('line').textContent=p.line||'';
+    $('sound').textContent=p.sound||''; $('place').textContent=p.place||''; $('open').textContent=p.open||'';
     pl.classList.add('in');
   }
 
-  // ---------- clima real (open-meteo, gratis, sin key) ----------
-  function wxText(code,temp,isDay){
-    var t=Math.round(temp);
-    if(code>=95) return '⛈ tormenta · '+t+'°';
-    if(code>=80||(code>=51&&code<=67)) return '🌧 lluvia · '+t+'°';
-    if(code>=45&&code<=48) return '🌫 neblina · '+t+'°';
-    if(code>=1&&code<=3) return (isDay?'⛅':'☁')+' nublado · '+t+'°';
-    return (isDay?'☀':'🌙')+' despejado · '+t+'°';
-  }
-  function loadWeather(){
-    var url='https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+'&current=temperature_2m,precipitation,weather_code,is_day&timezone=auto';
-    fetch(url).then(function(r){return r.json()}).then(function(j){
-      var c=j.current; if(!c) return;
-      window.__wx={rain:(c.precipitation>0||(c.weather_code>=51&&c.weather_code<=82)||c.weather_code>=95), clear:(c.weather_code<=1)};
-      $('wx').textContent=wxText(c.weather_code,c.temperature_2m,c.is_day);
-      render(); // re-render now that weather is known
-    }).catch(function(){ /* sin clima: igual funciona */ });
+  async function render(mood){
+    var c=ctxNow();
+    $('dayname').textContent=c.dayName; $('moonname').textContent=c.moon.name;
+    if(c.isDay && !mood && !insisted){
+      $('kicker').innerHTML='son las <b>'+String(c.h).padStart(2,'0')+':00</b> · de día yo no funciono';
+      show({act:'de día no existo', line:'esto sirve de noche. vuelve después de medianoche, o insiste abajo.', sound:'—', place:'tu cama, deberías dormir', open:'todo, pero no es la hora'});
+      $('reroll').firstChild.textContent='igual, sorpréndeme '; return;
+    }
+    $('kicker').innerHTML= mood ? 'porque escribiste <b>“'+mood.slice(0,28)+'”</b>' : 'para <b>ahora mismo</b>, según cómo está la noche';
+    $('reroll').firstChild.textContent='dame otro plan ';
+    if(API){
+      show({act:'pensando…', line:'', sound:'', place:'', open:''}, true);
+      var ai=await aiPlan(c, mood);
+      if(ai){ show(ai); return; }
+    }
+    show(buildPlan(c));
   }
 
+  function wxText(code,temp,isDay){ var t=Math.round(temp);
+    if(code>=95)return '⛈ tormenta · '+t+'°'; if(code>=80||(code>=51&&code<=67))return '🌧 lluvia · '+t+'°';
+    if(code>=45&&code<=48)return '🌫 neblina · '+t+'°'; if(code>=1&&code<=3)return (isDay?'⛅':'☁')+' nublado · '+t+'°';
+    return (isDay?'☀':'🌙')+' despejado · '+t+'°'; }
+  function loadWeather(){
+    fetch('https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+'&current=temperature_2m,precipitation,weather_code,is_day&timezone=auto')
+    .then(function(r){return r.json()}).then(function(j){ var c=j.current; if(!c)return;
+      window.__wx={rain:(c.precipitation>0||(c.weather_code>=51&&c.weather_code<=82)||c.weather_code>=95), clear:(c.weather_code<=1)};
+      window.__wxtxt=wxText(c.weather_code,c.temperature_2m,c.is_day); $('wx').textContent=window.__wxtxt;
+      if(!API) render('');  // refina el plan local con el clima (con IA no hace falta re-pedir)
+    }).catch(function(){});
+  }
   function tick(){var d=new Date();$('clock').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+
+  // wiring
   tick(); setInterval(tick,20000);
-  $('reroll').addEventListener('click', render);
-  render();        // primero sin clima (instantáneo)
-  loadWeather();   // luego refina con el clima real
+  $('reroll').addEventListener('click', function(){ insisted=true; var m=$('mood'); render(m?m.value.trim():''); });
+  if(API){
+    var mw=$('moodwrap'); mw.hidden=false; var mi=$('mood');
+    mi.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); insisted=true; render(mi.value.trim()); } });
+  }
+  render('');
+  loadWeather();
 })();
 </script>
 </body>
