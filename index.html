@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>ghosttacoboy — 11 propuestas</title>
+<meta name="description" content="Once direcciones de diseño para la página de ghosttacoboy. Elegí la que te late." />
+<meta property="og:title" content="ghosttacoboy — 11 propuestas" />
+<meta property="og:description" content="Once direcciones de diseño. Elegí." />
+<meta property="og:image" content="./img/caja.jpg" />
+<meta name="theme-color" content="#0A0A0C" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --void:#0A0A0C; --ash:#121217; --line:#23232b;
+    --bone:#ECE8E1; --mute:#7d808a; --blood:#E11221; --glow:#FF2A1E;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--void); color:var(--bone);
+    font-family:"Space Mono",ui-monospace,monospace;
+    line-height:1.5; letter-spacing:.01em;
+    padding:max(28px,env(safe-area-inset-top)) 20px calc(48px + env(safe-area-inset-bottom));
+    max-width:560px; margin:0 auto;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* grain */
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:99; opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  header{margin:8px 0 30px}
+  .eyebrow{font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--mute)}
+  h1{font-family:"Bricolage Grotesque",system-ui,sans-serif; font-size:clamp(32px,9.5vw,44px); font-weight:800; line-height:1.0; margin:12px 0 14px; letter-spacing:-.025em}
+  h1 .red{color:var(--blood)}
+  .lede{font-style:italic; font-size:15px; color:#c8c5bd}
+  .meta{font-size:12px; color:var(--mute); margin-top:14px}
+
+  ul{list-style:none}
+  li a{
+    display:flex; align-items:baseline; gap:12px;
+    text-decoration:none; color:var(--bone);
+    padding:18px 4px; border-top:1px solid var(--line);
+    transition:transform .25s ease, color .2s ease;
+    min-height:48px; will-change:transform;
+  }
+  li:last-child a{border-bottom:1px solid var(--line)}
+  .num{font-size:12px; color:var(--blood); width:26px; flex:none; padding-top:3px}
+  .body{flex:1}
+  .ttl{font-size:18px; font-weight:700; letter-spacing:-.01em}
+  .desc{font-size:12.5px; color:var(--mute); margin-top:3px}
+  .skill{display:inline-block; margin-top:7px; font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+         color:#9a9da6; border:1px solid var(--line); border-radius:0; padding:2px 7px}
+  .arr{color:var(--mute); align-self:center; transition:transform .25s ease, color .2s ease}
+  @media(hover:hover){
+    li a:hover{transform:translateX(10px); color:#fff}
+    li a:hover .arr{transform:translateX(4px); color:var(--blood)}
+  }
+  li a:focus-visible{outline:2px solid var(--glow); outline-offset:3px}
+  li a:active{color:var(--blood)}
+
+  footer{margin-top:34px; font-size:11px; color:var(--mute); line-height:1.7}
+  footer .stamp{color:var(--blood)}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">interno · para jonathan</div>
+    <h1>12 maneras de<br>vender al <span class="red">man solitario</span>™</h1>
+    <p class="lede">elegí la que te late. después la pulimos.</p>
+    <p class="meta">misma data, mismo chiste · 12 propuestas · todas mobile-first<br>ojo a la <span class="red">12</span> — esa le responde el “doy experiencias personalizadas”.</p>
+  </header>
+
+  <ul id="list">
+    <li><a href="./v01-recibo/"><span class="num">01</span><span class="body"><span class="ttl">recibo</span><div class="desc">la página es un ticket impreso por la “caja cerrada”. mono, deadpan.</div><span class="skill">frontend-design</span></span><span class="arr">→</span></a></li>
+    <li><a href="./v02-brutalist/"><span class="num">02</span><span class="body"><span class="ttl">expediente</span><div class="desc">dossier desclasificado. suizo + terminal militar, crudo.</div><span class="skill">brutalist</span></span><span class="arr">→</span></a></li>
+    <li><a href="./v03-minimal/"><span class="num">03</span><span class="body"><span class="ttl">minimalista</span><div class="desc">puro aire negro y tipografía. lujo callado.</div><span class="skill">minimalist</span></span><span class="arr">→</span></a></li>
+    <li><a href="./v04-soft/"><span class="num">04</span><span class="body"><span class="ttl">soft</span><div class="desc">agencia cara, cinemático, foto full-bleed.</div><span class="skill">soft</span></span><span class="arr">→</span></a></li>
+    <li><a href="./v05-emil/"><span class="num">05</span><span class="body"><span class="ttl">detalle</span><div class="desc">restraint + micro-interacciones que se sienten.</div><span class="skill">emil-design-eng</span></span><span class="arr">→</span></a></li>
+    <li><a href="./v06-presskit/"><span class="num">06</span><span class="body"><span class="ttl">press kit</span><div class="desc">scroll cinemático, sus fotos, la versión “aura”.</div><span class="skill">descartada · C</span></span><span class="arr">→</span></a></li>
+    <li><a href="./v07-test/"><span class="num">07</span><span class="body"><span class="ttl">el test</span><div class="desc">ella “abre la caja” y le toca un plan. interactivo.</div><span class="skill">descartada · B</span></span><span class="arr">→</span></a></li>
+    <li><a href="./v08-kinetic/"><span class="num">08</span><span class="body"><span class="ttl">kinético</span><div class="desc">editorial enorme en movimiento (gsap).</div><span class="skill">gpt-tasteskill</span></span><span class="arr">→</span></a></li>
+    <li><a href="./v09-neon/"><span class="num">09</span><span class="body"><span class="ttl">neón</span><div class="desc">letrero svg que parpadea como neón real.</div><span class="skill">svg-animations</span></span><span class="arr">→</span></a></li>
+    <li><a href="./v10-y2k/"><span class="num">10</span><span class="body"><span class="ttl">2000s alt</span><div class="desc">nostalgia emo/myspace. sus raíces, tasteful.</div><span class="skill">scene · raíz real</span></span><span class="arr">→</span></a></li>
+    <li><a href="./v11-linkbio/"><span class="num">11</span><span class="body"><span class="ttl">link-in-bio</span><div class="desc">el práctico que de verdad convierte.</div><span class="skill">ui-ux</span></span><span class="arr">→</span></a></li>
+    <li><a href="./v12-generador/" style="border-color:#3a1216;background:#16060833"><span class="num">12</span><span class="body"><span class="ttl">el plan de esta noche ★</span><div class="desc">se adapta a la hora, el día y la luna. genera un plan distinto cada vez. el que le gana a su “experiencia personalizada”.</div><span class="skill" style="color:var(--blood);border-color:#3a1216">contextual · generativo</span></span><span class="arr">→</span></a></li>
+  </ul>
+
+  <footer>
+    <span class="stamp">caja cerrada</span> · borrador v0 · resultados no garantizados<br>
+    no tengo amigos (mentira, tengo uno)
+  </footer>
+</body>
+</html>

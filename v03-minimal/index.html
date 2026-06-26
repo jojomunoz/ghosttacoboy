@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ghosttacoboy — qué puedes hacer conmigo</title>
+<meta name="description" content="city lights, empty heart. siete maneras de pasar la noche con ghosttacoboy.">
+<meta name="theme-color" content="#0A0A0C">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="qué puedes hacer conmigo">
+<meta property="og:description" content="city lights, empty heart.">
+<meta property="og:image" content="../img/caja.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --void:#0A0A0C;
+    --bone:#ECE8E1;
+    --blood:#E11221;
+
+    --ink-2:rgba(236,232,225,.50);
+    --ink-3:rgba(236,232,225,.30);
+    --ink-4:rgba(236,232,225,.14);
+
+    --measure:34rem;
+    --pad:clamp(1.6rem, 7vw, 4.5rem);
+
+    /* tipo */
+    --display:clamp(3.4rem, 16vw, 7.75rem);
+    --name:clamp(2.4rem, 11.5vw, 4.75rem);
+    --line:clamp(1.08rem, 4.6vw, 1.4rem);
+    --meta:clamp(.66rem, 2.6vw, .74rem);
+  }
+
+  *{box-sizing:border-box;}
+
+  html{
+    -webkit-text-size-adjust:100%;
+  }
+
+  body{
+    margin:0;
+    background:var(--void);
+    color:var(--bone);
+    font-family:"Cormorant Garamond", Georgia, "Times New Roman", serif;
+    font-weight:400;
+    line-height:1.55;
+    text-rendering:optimizeLegibility;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    overflow-x:hidden;
+  }
+
+  ::selection{background:var(--bone); color:var(--void);}
+
+  a{color:inherit;}
+
+  /* foco de teclado visible */
+  a:focus-visible{
+    outline:1px solid var(--bone);
+    outline-offset:6px;
+    border-radius:1px;
+  }
+  :focus:not(:focus-visible){outline:none;}
+
+  .wrap{
+    width:100%;
+    max-width:46rem;
+    margin:0 auto;
+    padding:0 var(--pad);
+  }
+
+  /* ---------------- HERO ---------------- */
+  .hero{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:clamp(2rem,7vh,3.5rem) 0 clamp(2rem,5vh,3rem);
+  }
+
+  .brand{
+    margin:0;
+    font-size:var(--meta);
+    font-weight:500;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    color:var(--ink-2);
+  }
+
+  .hero-mid{
+    flex:1;
+    display:flex;
+    align-items:center;
+  }
+
+  .display{
+    margin:0;
+    font-size:var(--display);
+    font-weight:300;
+    line-height:.96;
+    letter-spacing:-.028em;
+  }
+
+  .hero-foot{
+    display:flex;
+    flex-direction:column;
+    gap:1.4rem;
+  }
+
+  .tagline{
+    margin:0;
+    font-style:italic;
+    font-weight:300;
+    font-size:var(--line);
+    letter-spacing:.005em;
+    color:var(--ink-2);
+  }
+  .tagline .dot{color:var(--blood);} /* el único acento, casi ausente */
+
+  .cue{
+    margin:0;
+    font-size:var(--meta);
+    font-weight:500;
+    letter-spacing:.34em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+  }
+
+  /* ---------------- MENÚ ---------------- */
+  .menu{
+    padding:clamp(4rem,16vh,9rem) 0 clamp(2rem,8vh,5rem);
+  }
+
+  .label{
+    margin:0 0 clamp(3.5rem,12vh,7rem);
+    font-size:var(--meta);
+    font-weight:500;
+    letter-spacing:.34em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+  }
+
+  .dish{
+    max-width:var(--measure);
+    margin:0 auto clamp(6.5rem,22vh,12rem);
+  }
+  .dish:last-of-type{margin-bottom:0;}
+
+  .hour{
+    margin:0 0 1.2rem;
+    font-size:var(--meta);
+    font-weight:600;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+    font-feature-settings:"tnum" 1;
+  }
+
+  .name{
+    margin:0;
+    font-size:var(--name);
+    font-weight:400;
+    line-height:1.04;
+    letter-spacing:-.01em;
+  }
+
+  .line{
+    margin:1.5rem 0 0;
+    max-width:30ch;
+    font-size:var(--line);
+    font-weight:400;
+    font-style:italic;
+    line-height:1.5;
+    color:var(--ink-2);
+  }
+  .line .en{font-style:italic; color:var(--ink-3);}
+
+  .frame{
+    margin:clamp(2.8rem,9vw,4rem) 0 0;
+    width:clamp(220px, 64%, 300px);
+  }
+  .frame img{
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:3/4;
+    object-fit:cover;
+    filter:saturate(.92) brightness(.9);
+    transition:filter 1.2s cubic-bezier(.2,.7,.2,1);
+  }
+  .frame img:hover{filter:saturate(1) brightness(1);}
+
+  /* el plato sin imagen: el vacío + un punto */
+  .void-frame{
+    margin:clamp(2.8rem,9vw,4rem) 0 0;
+    width:clamp(220px, 64%, 300px);
+    aspect-ratio:3/4;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .void-frame .point{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--blood);
+  }
+
+  /* ---------------- CTA ---------------- */
+  .cta{
+    padding:clamp(6rem,20vh,11rem) 0 clamp(5rem,14vh,8rem);
+    max-width:var(--measure);
+    margin:0 auto;
+  }
+  .cta-link{
+    display:inline-block;
+    font-size:clamp(1.6rem,8vw,3rem);
+    font-weight:300;
+    font-style:italic;
+    line-height:1.12;
+    letter-spacing:-.015em;
+    text-decoration:none;
+    border-bottom:1px solid var(--ink-4);
+    padding-bottom:.12em;
+    transition:border-color 1s ease, color 1s ease;
+  }
+  .cta-link:hover{border-color:var(--bone);}
+
+  /* ---------------- FOOTER ---------------- */
+  .site-foot{
+    padding:clamp(3rem,8vh,5rem) 0 clamp(3.5rem,9vh,5.5rem);
+    border-top:1px solid var(--ink-4);
+    max-width:var(--measure);
+    margin:0 auto;
+  }
+  .site-foot p{
+    margin:0;
+    font-size:var(--meta);
+    font-weight:400;
+    letter-spacing:.14em;
+    line-height:2;
+    text-transform:uppercase;
+    color:var(--ink-3);
+  }
+
+  /* ---------------- REVEAL ---------------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity 1.2s cubic-bezier(.2,.7,.2,1), transform 1.2s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.in{opacity:1; transform:none;}
+
+  .hero .display,
+  .hero .brand,
+  .hero .hero-foot{
+    opacity:0;
+    transform:translateY(14px);
+    animation:rise 1.4s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  .hero .brand{animation-delay:.1s;}
+  .hero .display{animation-delay:.32s;}
+  .hero .hero-foot{animation-delay:.62s;}
+
+  @keyframes rise{to{opacity:1; transform:none;}}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+    .reveal{opacity:1; transform:none;}
+    .hero .display,.hero .brand,.hero .hero-foot{opacity:1; transform:none;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero wrap">
+    <p class="brand">ghosttacoboy</p>
+
+    <div class="hero-mid">
+      <h1 class="display">qué puedes<br>hacer conmigo</h1>
+    </div>
+
+    <div class="hero-foot">
+      <p class="tagline">city lights, empty heart<span class="dot">.</span></p>
+      <p class="cue">siete maneras · desliza</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="menu wrap" aria-label="menú">
+      <p class="label reveal">el menú</p>
+
+      <article class="dish reveal">
+        <p class="hour">23:00</p>
+        <h2 class="name">vuelta sin rumbo</h2>
+        <p class="line">el carro, la ciudad, ningún destino. no hablamos de eso.</p>
+        <figure class="frame">
+          <img src="../img/drive.jpg" alt="Carretera nocturna vista desde el carro" width="600" height="800" loading="lazy" decoding="async">
+        </figure>
+      </article>
+
+      <article class="dish reveal">
+        <p class="hour">∞</p>
+        <h2 class="name">sos la musa</h2>
+        <p class="line">vos al frente del lente. yo atrás, que es donde me siento seguro.</p>
+        <figure class="frame">
+          <img src="../img/room.jpg" alt="Cuarto oscuro con televisor de tubo en estática y cojines de rosas" width="600" height="800" loading="lazy" decoding="async">
+        </figure>
+      </article>
+
+      <article class="dish reveal">
+        <p class="hour">02:00</p>
+        <h2 class="name">luces rojas</h2>
+        <p class="line">te llevo a donde el bajo no deja pensar. toque, disco, lo que caiga.</p>
+        <figure class="frame">
+          <img src="../img/club.jpg" alt="Concierto con luz roja, multitud y una camcorder" width="600" height="800" loading="lazy" decoding="async">
+        </figure>
+      </article>
+
+      <article class="dish reveal">
+        <p class="hour">—</p>
+        <h2 class="name">caja cerrada</h2>
+        <p class="line">te explico por qué le tomo foto a un letrero de súper. nadie más entiende esto.</p>
+        <figure class="frame">
+          <img src="../img/caja.jpg" alt="Letrero rojo de supermercado que dice caja cerrada" width="600" height="800" loading="lazy" decoding="async">
+        </figure>
+      </article>
+
+      <article class="dish reveal">
+        <p class="hour">03:00</p>
+        <h2 class="name">drive a las 3am</h2>
+        <p class="line">ventana abajo, la luna nos sigue. <span class="en">one day i'll replay this.</span></p>
+        <figure class="frame">
+          <img src="../img/moon.jpg" alt="Luna llena entre las ramas de los árboles" width="600" height="800" loading="lazy" decoding="async">
+        </figure>
+      </article>
+
+      <article class="dish reveal">
+        <p class="hour">01:30</p>
+        <h2 class="name">misión antojo</h2>
+        <p class="line">mcdonald's, gasolinera, una lata de monster. cero glamour, máxima data.</p>
+        <figure class="frame">
+          <img src="../img/highway.jpg" alt="Autopista nublada y melancólica vista desde el carro" width="600" height="800" loading="lazy" decoding="async">
+        </figure>
+      </article>
+
+      <article class="dish reveal">
+        <p class="hour">siempre</p>
+        <h2 class="name">nada</h2>
+        <p class="line">callados, viendo la bahía. es mi especialidad.</p>
+        <div class="void-frame" aria-hidden="true"><span class="point"></span></div>
+      </article>
+    </section>
+
+    <section class="cta wrap reveal">
+      <a class="cta-link" href="https://instagram.com/ghosttacoboy" target="_blank" rel="noopener">si llegaste hasta acá, escríbeme</a>
+    </section>
+  </main>
+
+  <footer class="site-foot wrap reveal">
+    <p>el man solitario™ · resultados no garantizados · no tengo amigos (mentira, tengo uno)</p>
+  </footer>
+
+  <script>
+    (function(){
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var items = document.querySelectorAll('.reveal');
+      if(reduce || !('IntersectionObserver' in window)){
+        items.forEach(function(el){ el.classList.add('in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){
+            e.target.classList.add('in');
+            io.unobserve(e.target);
+          }
+        });
+      }, {rootMargin:'0px 0px -12% 0px', threshold:0.1});
+      items.forEach(function(el){ io.observe(el); });
+    })();
+  </script>
+
+</body>
+</html>

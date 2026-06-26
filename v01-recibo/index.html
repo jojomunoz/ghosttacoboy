@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0A0C">
+<title>ghosttacoboy — qué puedes hacer conmigo</title>
+<meta name="description" content="city lights, empty heart. un recibo impreso por la caja cerrada. lo que puedes hacer conmigo.">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="qué puedes hacer conmigo">
+<meta property="og:description" content="city lights, empty heart. — el man solitario™">
+<meta property="og:image" content="../img/caja.jpg">
+<meta property="og:locale" content="es_PA">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --void:#0A0A0C;
+    --bone:#ECE8E1;
+    --blood:#E11221;
+    --glow:#FF2A1E;
+    --ink:var(--bone);
+    --paper:#0d0d10;
+    --dim:rgba(236,232,225,.46);
+    --dimmer:rgba(236,232,225,.24);
+    --faint:rgba(236,232,225,.10);
+    --m:16px; /* zigzag tooth size */
+    --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  html{-webkit-text-size-adjust:100%;}
+
+  body{
+    background:
+      radial-gradient(120% 75% at 50% -8%, #16161a 0%, #0a0a0c 46%, #050506 100%);
+    color:var(--ink);
+    font-family:"Space Mono", ui-monospace, "Courier New", monospace;
+    font-size:clamp(12.5px, 3.4vw, 13.5px);
+    line-height:1.6;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    padding:34px 16px 26px;
+    -webkit-font-smoothing:antialiased;
+    letter-spacing:.01em;
+  }
+
+  ::selection{background:var(--blood); color:var(--void);}
+
+  /* ---------- film grain ---------- */
+  .grain{
+    position:fixed; inset:-50%;
+    width:200%; height:200%;
+    background-image:var(--noise);
+    background-size:160px 160px;
+    opacity:.06;
+    mix-blend-mode:overlay;
+    pointer-events:none;
+    z-index:9999;
+    animation:grainshift 1.1s steps(5) infinite;
+  }
+  @keyframes grainshift{
+    0%{transform:translate(0,0)}
+    20%{transform:translate(-4%,-3%)}
+    40%{transform:translate(3%,-5%)}
+    60%{transform:translate(-3%,4%)}
+    80%{transform:translate(4%,3%)}
+    100%{transform:translate(0,0)}
+  }
+
+  /* ---------- receipt shell ---------- */
+  .wrap{
+    position:relative;
+    width:100%;
+    max-width:360px;
+    filter:drop-shadow(0 26px 60px rgba(0,0,0,.72));
+  }
+
+  .paper{
+    position:relative;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.015), rgba(0,0,0,.02)),
+      var(--paper);
+    padding:30px 22px 26px;
+    /* torn thermal edges, top + bottom */
+    -webkit-mask:
+      conic-gradient(from 135deg at top,   #0000, #000 1deg 89deg, #0000 90deg) top    /var(--m) calc(var(--m)/2) repeat-x,
+      conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom /var(--m) calc(var(--m)/2) repeat-x,
+      linear-gradient(#000 0 0) center/100% calc(100% - var(--m)) no-repeat;
+    mask:
+      conic-gradient(from 135deg at top,   #0000, #000 1deg 89deg, #0000 90deg) top    /var(--m) calc(var(--m)/2) repeat-x,
+      conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom /var(--m) calc(var(--m)/2) repeat-x,
+      linear-gradient(#000 0 0) center/100% calc(100% - var(--m)) no-repeat;
+  }
+  /* faint inner edge so paper reads against the void */
+  .paper::after{
+    content:""; position:absolute; inset:0;
+    box-shadow:inset 0 0 0 1px var(--faint);
+    pointer-events:none;
+  }
+
+  /* ---------- print-on-load reveal ---------- */
+  .pl{
+    animation:feed .26s cubic-bezier(.2,.7,.2,1) backwards;
+    animation-delay:calc(var(--i,0) * 52ms);
+  }
+  @keyframes feed{
+    from{clip-path:inset(0 0 100% 0); opacity:0; transform:translateY(-2px);}
+    to  {clip-path:inset(0 0 0 0);    opacity:1; transform:none;}
+  }
+
+  /* ---------- merchant head ---------- */
+  .merch{text-align:center; margin-bottom:10px;}
+  .brand{
+    font-size:1.7rem;
+    font-weight:700;
+    letter-spacing:.04em;
+    margin:0 0 4px;
+    line-height:1;
+  }
+  .sub{
+    margin:1px 0;
+    font-size:.72rem;
+    color:var(--dim);
+    letter-spacing:.16em;
+    text-transform:uppercase;
+  }
+
+  .tagline{
+    font-family:"Fraunces", Georgia, serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:1.18rem;
+    text-align:center;
+    margin:12px 4px;
+    line-height:1.25;
+    color:var(--bone);
+    letter-spacing:0;
+  }
+
+  .meta{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    font-size:.72rem;
+    color:var(--dim);
+    letter-spacing:.06em;
+    margin:3px 0;
+  }
+  .meta b{color:var(--bone); font-weight:700;}
+
+  .sect{
+    text-align:center;
+    font-size:.82rem;
+    font-weight:700;
+    letter-spacing:.1em;
+    margin:14px 0;
+    color:var(--bone);
+  }
+  .sect::before{content:"*** ";}
+  .sect::after{content:" ***";}
+
+  /* ---------- rules ---------- */
+  .rule{
+    height:0;
+    border-top:2px dotted var(--dimmer);
+    margin:12px 0;
+  }
+  .rule.double{
+    height:4px;
+    border:none;
+    border-top:1px solid var(--dim);
+    border-bottom:1px solid var(--dim);
+    margin:14px 0;
+  }
+
+  /* ---------- tabular rows with leaders ---------- */
+  .row,.item > summary{
+    display:flex;
+    align-items:stretch;
+    width:100%;
+    gap:0;
+  }
+  .qty{align-self:flex-end; color:var(--dim); margin-right:.7ch; flex:0 0 auto;}
+  .name{align-self:flex-end; flex:0 1 auto; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.45;}
+  .price{align-self:flex-end; flex:0 0 auto; font-weight:700; white-space:nowrap; letter-spacing:.02em;}
+  .lead{flex:1 1 auto; align-self:stretch; position:relative; min-width:2ch;}
+  .lead::before{
+    content:"";
+    position:absolute; left:.6ch; right:.6ch; bottom:.42em;
+    border-top:2px dotted var(--dimmer);
+  }
+
+  /* ---------- items (native details = a11y + no-JS) ---------- */
+  .items{margin:4px 0;}
+  .item{border:none;}
+  .item > summary{
+    cursor:pointer;
+    list-style:none;
+    padding:.55em 0;
+    min-height:46px;
+    align-items:flex-end;
+    outline:none;
+  }
+  .item > summary::-webkit-details-marker{display:none;}
+  .tick{
+    align-self:flex-end; margin-left:.8ch; width:1.4ch;
+    text-align:center; color:var(--dim); font-weight:700; flex:0 0 auto;
+  }
+  .tick::after{content:"+";}
+  .item[open] .tick::after{content:"–"; color:var(--glow);}
+
+  .item > summary:hover .name{color:#fff;}
+  .item > summary:hover .lead::before{border-color:var(--dim);}
+
+  /* active state — the only place red lives besides stamp + total */
+  .item[open] > summary .name{color:var(--glow);}
+  .item[open] > summary .lead::before{border-color:var(--dim);}
+
+  :focus-visible{outline:none;}
+  .item > summary:focus-visible{
+    outline:2px solid var(--glow);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  /* expanded panel */
+  .panel{padding:6px 0 14px;}
+  .item[open] .panel{animation:reveal .3s ease both;}
+  @keyframes reveal{
+    from{opacity:0; transform:translateY(-6px); clip-path:inset(0 0 100% 0);}
+    to  {opacity:1; transform:none; clip-path:inset(0 0 0 0);}
+  }
+
+  /* duotone red + black photo */
+  .shot{
+    position:relative;
+    isolation:isolate;
+    width:100%;
+    aspect-ratio:4/5;
+    overflow:hidden;
+    background:var(--blood);
+    border:1px solid var(--dimmer);
+  }
+  .shot img{
+    width:100%; height:100%;
+    object-fit:cover; display:block;
+    filter:grayscale(1) contrast(1.12) brightness(1.28);
+    mix-blend-mode:multiply;
+  }
+  .shot::after{
+    content:"";
+    position:absolute; inset:0; z-index:2;
+    background:repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px);
+    pointer-events:none;
+  }
+  /* "nada" — no attachment, just static */
+  .shot.static{
+    background:
+      repeating-linear-gradient(0deg, #141417 0 2px, #0a0a0c 2px 4px),
+      var(--noise);
+    background-size:auto, 90px 90px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .staticmsg{
+    position:relative; z-index:3;
+    text-align:center; color:var(--dim);
+    font-size:.8rem; letter-spacing:.14em; text-transform:uppercase;
+    line-height:1.6;
+    text-shadow:0 0 8px #000;
+  }
+
+  .cap{
+    margin:10px 0 2px;
+    font-size:.82rem;
+    color:var(--bone);
+    line-height:1.5;
+  }
+  .file{
+    margin:4px 0 0;
+    font-size:.66rem;
+    color:var(--dim);
+    letter-spacing:.14em;
+    text-transform:uppercase;
+  }
+
+  /* ---------- totals ---------- */
+  .total .name{font-weight:700; letter-spacing:.06em;}
+  .total{margin:8px 0;}
+  .grand .name{letter-spacing:.16em;}
+  .price.red{color:var(--blood);}
+  .grand .price{font-size:1.02rem;}
+
+  .pay{font-size:.76rem; color:var(--dim); letter-spacing:.05em; margin:10px 0;}
+  .pay p{margin:3px 0;}
+
+  /* ---------- barcode + footer ---------- */
+  .barcode{
+    height:48px; margin:12px 0 8px;
+    background-image:repeating-linear-gradient(90deg,
+      var(--ink) 0 1px, transparent 1px 3px,
+      var(--ink) 3px 6px, transparent 6px 7px,
+      var(--ink) 7px 9px, transparent 9px 13px,
+      var(--ink) 13px 14px, transparent 14px 17px);
+    background-size:17px 100%;
+    opacity:.82;
+  }
+  .code{
+    text-align:center; font-size:.72rem; color:var(--dim);
+    letter-spacing:.22em; margin:0 0 14px;
+  }
+  .foot{
+    text-align:center; font-size:.72rem; color:var(--dim);
+    line-height:1.6; margin:6px 0 0; letter-spacing:.01em;
+  }
+
+  /* ---------- CTA — inverted stamp button ---------- */
+  .cta{
+    display:block; text-align:center;
+    margin:18px 0 8px;
+    padding:16px 14px; min-height:54px;
+    background:var(--bone); color:var(--void);
+    font-weight:700; letter-spacing:.03em;
+    text-decoration:none; border-radius:2px;
+    box-shadow:0 0 0 1px var(--bone);
+    transition:background .15s ease, color .15s ease, box-shadow .15s ease, transform .08s ease;
+  }
+  .cta:hover, .cta:focus-visible{
+    background:var(--glow); color:var(--void);
+    box-shadow:0 0 0 1px var(--glow), 0 0 26px rgba(255,42,30,.42);
+  }
+  .cta:focus-visible{outline:2px solid var(--bone); outline-offset:3px;}
+  .cta:active{transform:translateY(1px);}
+
+  .thanks{
+    text-align:center; font-size:.74rem; color:var(--dim);
+    letter-spacing:.16em; margin:12px 0 2px;
+  }
+
+  /* ---------- red stamp (CAJA CERRADA) ---------- */
+  .stamp{
+    position:absolute; top:6px; right:2px; z-index:5;
+    transform:rotate(-8deg);
+    color:var(--blood);
+    border:2.5px solid var(--blood);
+    border-radius:4px;
+    padding:.32em .55em .26em;
+    text-align:center; line-height:1.05;
+    box-shadow:inset 0 0 0 1.5px var(--blood);
+    mix-blend-mode:screen;
+    opacity:.94;
+    animation:stamp .34s cubic-bezier(.16,1,.3,1) backwards;
+    animation-delay:1.15s;
+    pointer-events:none;
+  }
+  .stamp .big{font-weight:700; font-size:.82rem; letter-spacing:.2em; display:block;}
+  .stamp .small{font-size:.56rem; letter-spacing:.18em; opacity:.85; display:block; margin-top:2px;}
+  @keyframes stamp{
+    from{opacity:0; transform:rotate(-8deg) scale(1.5);}
+    to  {opacity:.94; transform:rotate(-8deg) scale(1);}
+  }
+
+  .receipt-note{
+    max-width:360px;
+    text-align:center;
+    font-size:.66rem;
+    color:var(--dimmer);
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    margin:18px auto 0;
+    line-height:1.6;
+  }
+
+  /* ---------- reduced motion ---------- */
+  @media (prefers-reduced-motion: reduce){
+    .grain{animation:none;}
+    .pl,.stamp,.item[open] .panel{animation:none !important;}
+    .cta{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<main class="wrap" aria-label="Recibo — qué puedes hacer conmigo">
+
+  <div class="stamp" aria-hidden="true">
+    <span class="big">CAJA CERRADA</span>
+    <span class="small">reg. 03 · 24h</span>
+  </div>
+
+  <article class="paper">
+
+    <header class="merch pl">
+      <h1 class="brand">ghosttacoboy</h1>
+      <p class="sub">fotografía nocturna · 24 h</p>
+      <p class="sub">ciudad de panamá</p>
+    </header>
+
+    <p class="tagline pl">city lights, empty heart.</p>
+
+    <div class="rule pl"></div>
+
+    <div class="meta pl">
+      <span>FECHA <b id="d">--/--/--</b></span>
+      <span>HORA <b id="t">--:--</b></span>
+    </div>
+    <div class="meta pl">
+      <span>CAJA #03</span>
+      <span>CAJERO: el man solitario</span>
+    </div>
+
+    <div class="rule double pl"></div>
+
+    <h2 class="sect pl">qué puedes hacer conmigo</h2>
+
+    <div class="rule double pl"></div>
+
+    <div class="items">
+
+      <details class="item pl">
+        <summary>
+          <span class="qty">1×</span>
+          <span class="name">vuelta sin rumbo</span>
+          <span class="lead" aria-hidden="true"></span>
+          <span class="price">23:00</span>
+          <span class="tick" aria-hidden="true"></span>
+        </summary>
+        <div class="panel">
+          <div class="shot">
+            <img data-src="../img/drive.jpg" loading="lazy" width="800" height="1000" alt="carretera nocturna vista desde el carro">
+          </div>
+          <p class="cap">el carro, la ciudad, ningún destino. no hablamos de eso.</p>
+          <p class="file">ADJUNTO · drive.jpg</p>
+        </div>
+      </details>
+
+      <details class="item pl">
+        <summary>
+          <span class="qty">1×</span>
+          <span class="name">sos la musa</span>
+          <span class="lead" aria-hidden="true"></span>
+          <span class="price">∞</span>
+          <span class="tick" aria-hidden="true"></span>
+        </summary>
+        <div class="panel">
+          <div class="shot">
+            <img data-src="../img/room.jpg" loading="lazy" width="800" height="1000" alt="cuarto oscuro, tv de tubo con estática y cojines de rosas">
+          </div>
+          <p class="cap">vos al frente del lente. yo atrás, que es donde me siento seguro.</p>
+          <p class="file">ADJUNTO · room.jpg</p>
+        </div>
+      </details>
+
+      <details class="item pl">
+        <summary>
+          <span class="qty">1×</span>
+          <span class="name">luces rojas</span>
+          <span class="lead" aria-hidden="true"></span>
+          <span class="price">02:00</span>
+          <span class="tick" aria-hidden="true"></span>
+        </summary>
+        <div class="panel">
+          <div class="shot">
+            <img data-src="../img/club.jpg" loading="lazy" width="800" height="1000" alt="concierto bajo luz roja, multitud y camcorder">
+          </div>
+          <p class="cap">te llevo a donde el bajo no deja pensar. toque, disco, lo que caiga.</p>
+          <p class="file">ADJUNTO · club.jpg</p>
+        </div>
+      </details>
+
+      <details class="item pl">
+        <summary>
+          <span class="qty">1×</span>
+          <span class="name">caja cerrada</span>
+          <span class="lead" aria-hidden="true"></span>
+          <span class="price">—</span>
+          <span class="tick" aria-hidden="true"></span>
+        </summary>
+        <div class="panel">
+          <div class="shot">
+            <img data-src="../img/caja.jpg" loading="lazy" width="800" height="1000" alt="letrero rojo de supermercado que dice caja cerrada">
+          </div>
+          <p class="cap">te explico por qué le tomo foto a un letrero de súper. nadie más entiende esto.</p>
+          <p class="file">ADJUNTO · caja.jpg</p>
+        </div>
+      </details>
+
+      <details class="item pl">
+        <summary>
+          <span class="qty">1×</span>
+          <span class="name">drive a las 3am</span>
+          <span class="lead" aria-hidden="true"></span>
+          <span class="price">03:00</span>
+          <span class="tick" aria-hidden="true"></span>
+        </summary>
+        <div class="panel">
+          <div class="shot">
+            <img data-src="../img/moon.jpg" loading="lazy" width="800" height="1000" alt="luna llena entre las ramas">
+          </div>
+          <p class="cap">ventana abajo, la luna nos sigue. one day i'll replay this.</p>
+          <p class="file">ADJUNTO · moon.jpg</p>
+        </div>
+      </details>
+
+      <details class="item pl">
+        <summary>
+          <span class="qty">1×</span>
+          <span class="name">misión antojo</span>
+          <span class="lead" aria-hidden="true"></span>
+          <span class="price">01:30</span>
+          <span class="tick" aria-hidden="true"></span>
+        </summary>
+        <div class="panel">
+          <div class="shot">
+            <img data-src="../img/highway.jpg" loading="lazy" width="800" height="1000" alt="autopista nublada y melancólica vista desde el carro">
+          </div>
+          <p class="cap">mcdonald's, gasolinera, una lata de monster. cero glamour, máxima data.</p>
+          <p class="file">ADJUNTO · highway.jpg</p>
+        </div>
+      </details>
+
+      <details class="item pl">
+        <summary>
+          <span class="qty">1×</span>
+          <span class="name">nada</span>
+          <span class="lead" aria-hidden="true"></span>
+          <span class="price">siempre</span>
+          <span class="tick" aria-hidden="true"></span>
+        </summary>
+        <div class="panel">
+          <div class="shot static" role="img" aria-label="sin imagen, solo la bahía">
+            <span class="staticmsg">sin imagen<br>solo la bahía</span>
+          </div>
+          <p class="cap">callados, viendo la bahía. es mi especialidad.</p>
+          <p class="file">ADJUNTO · —</p>
+        </div>
+      </details>
+
+    </div>
+
+    <div class="rule double pl"></div>
+
+    <div class="row total pl">
+      <span class="name">ARTÍCULOS</span>
+      <span class="lead" aria-hidden="true"></span>
+      <span class="price">07</span>
+    </div>
+    <div class="row total grand pl">
+      <span class="name">TOTAL</span>
+      <span class="lead" aria-hidden="true"></span>
+      <span class="price red">tu atención</span>
+    </div>
+
+    <div class="rule double pl"></div>
+
+    <div class="pay pl">
+      <p>FORMA DE PAGO · no acepto efectivo</p>
+      <p>SALDO · solo presencia. solo vos.</p>
+    </div>
+
+    <div class="rule pl"></div>
+
+    <div class="barcode pl" aria-hidden="true"></div>
+    <p class="code pl">8 04040 04040 · ghst·taco·boy · 404</p>
+
+    <p class="foot pl">el man solitario™ · resultados no garantizados · no tengo amigos (mentira, tengo uno)</p>
+
+    <a class="cta pl" href="https://instagram.com/ghosttacoboy" target="_blank" rel="noopener">si llegaste hasta acá, escríbeme</a>
+
+    <p class="thanks pl">*** gracias por pasar ***</p>
+
+  </article>
+</main>
+
+<p class="receipt-note">impreso desde la caja cerrada · no se aceptan devoluciones</p>
+
+<script>
+  (function(){
+    // print order indices for the thermal-feed reveal
+    var lines = document.querySelectorAll('.pl');
+    for (var i = 0; i < lines.length; i++){
+      lines[i].style.setProperty('--i', i);
+    }
+
+    // live "printed now" timestamp
+    var p = function(n){ return String(n).padStart(2,'0'); };
+    var now = new Date();
+    var d = document.getElementById('d');
+    var t = document.getElementById('t');
+    if (d) d.textContent = p(now.getDate()) + '/' + p(now.getMonth()+1) + '/' + p(now.getFullYear()%100);
+    if (t) t.textContent = p(now.getHours()) + ':' + p(now.getMinutes());
+
+    // lazy-attach photo only on first expand (keeps initial load fast)
+    var items = document.querySelectorAll('details.item');
+    items.forEach(function(det){
+      det.addEventListener('toggle', function(){
+        if (det.open){
+          var img = det.querySelector('img[data-src]');
+          if (img){ img.src = img.getAttribute('data-src'); img.removeAttribute('data-src'); }
+        }
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

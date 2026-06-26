@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>ghosttacoboy — qué puedes hacer conmigo</title>
+<meta name="description" content="Una carta de siete. city lights, empty heart. Editorial en movimiento de ghosttacoboy." />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="qué puedes hacer conmigo" />
+<meta property="og:description" content="city lights, empty heart. una carta de siete · ghosttacoboy" />
+<meta property="og:image" content="../img/caja.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="qué puedes hacer conmigo" />
+<meta name="twitter:image" content="../img/caja.jpg" />
+<meta name="theme-color" content="#0A0A0C" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --void:#0A0A0C;
+    --ink:#060608;
+    --bone:#ECE8E1;
+    --mute:#85837c;
+    --faint:#46453f;
+    --line:#1b1b20;
+    --blood:#E11221;
+    --glow:#FF2A1E;
+    --pad:clamp(20px,6vw,72px);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  html,body{overflow-x:hidden}
+
+  body{
+    background:var(--void);
+    color:var(--bone);
+    font-family:"Space Mono",ui-monospace,SFMono-Regular,monospace;
+    line-height:1.5;
+    letter-spacing:.01em;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:clip;
+  }
+
+  /* grain + vignette, fixed, non-interactive */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:90;pointer-events:none;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:89;pointer-events:none;
+    background:radial-gradient(120% 80% at 50% 0%,transparent 55%,rgba(0,0,0,.55) 100%);
+  }
+
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+
+  :focus-visible{outline:2px solid var(--glow);outline-offset:4px;border-radius:1px}
+
+  .skip{
+    position:fixed;left:12px;top:-120px;z-index:200;
+    background:var(--bone);color:var(--void);
+    font:700 12px/1 "Space Mono",monospace;letter-spacing:.08em;
+    padding:12px 16px;border-radius:2px;transition:top .2s ease;
+  }
+  .skip:focus{top:12px}
+
+  /* scroll progress */
+  .progress{
+    position:fixed;top:0;left:0;right:0;height:2px;z-index:160;
+    background:var(--glow);transform:scaleX(0);transform-origin:0 50%;
+    will-change:transform;
+  }
+
+  /* nav */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:150;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px var(--pad);
+    font:700 12px/1 "Space Mono",monospace;letter-spacing:.16em;text-transform:uppercase;
+    transition:background .3s ease,border-color .3s ease;
+    border-bottom:1px solid transparent;
+  }
+  .nav.is-scrolled{
+    background:rgba(10,10,12,.72);
+    -webkit-backdrop-filter:saturate(140%) blur(10px);
+    backdrop-filter:saturate(140%) blur(10px);
+    border-bottom-color:var(--line);
+  }
+  .nav .brand{display:inline-flex;align-items:center;gap:.6ch;color:var(--bone)}
+  .nav .brand i{width:7px;height:7px;background:var(--glow);border-radius:50%;display:inline-block;
+    box-shadow:0 0 10px rgba(255,42,30,.8)}
+  .nav-cta{color:var(--mute);min-height:44px;display:inline-flex;align-items:center}
+  .nav-cta:hover{color:var(--bone)}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;min-height:100vh;min-height:100svh;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    padding:120px var(--pad) clamp(36px,9vh,90px);
+    overflow:hidden;
+  }
+  .hero-inner{will-change:transform,opacity}
+  .tagline{
+    font:400 12px/1 "Space Mono",monospace;letter-spacing:.34em;text-transform:uppercase;
+    color:var(--mute);margin-bottom:clamp(18px,5vh,40px);
+  }
+  .tagline b{color:var(--bone);font-weight:400}
+  .hero-title{
+    font-family:"Anton",Impact,sans-serif;font-weight:400;
+    font-size:clamp(3.4rem,17vw,12rem);line-height:.84;
+    letter-spacing:-.005em;text-transform:lowercase;
+    color:var(--bone);max-width:14ch;
+  }
+  .hero-title .rojo{color:var(--glow)}
+  .hero-sub{
+    margin-top:clamp(20px,5vh,40px);max-width:34ch;
+    font-size:14px;color:var(--mute);
+  }
+  .hero-sub em{color:#c8c5bd;font-style:italic}
+  .cue{
+    margin-top:clamp(24px,5vh,44px);
+    display:inline-flex;align-items:center;gap:10px;
+    font:700 11px/1 "Space Mono",monospace;letter-spacing:.24em;text-transform:uppercase;color:var(--faint);
+  }
+  .cue span{width:34px;height:1px;background:var(--faint);position:relative;overflow:hidden}
+  .cue span::after{content:"";position:absolute;inset:0;background:var(--glow);
+    transform:translateX(-100%);animation:cueline 2.4s ease-in-out infinite}
+  @keyframes cueline{0%{transform:translateX(-100%)}55%,100%{transform:translateX(100%)}}
+
+  /* ---------- KINETIC MARQUEE ---------- */
+  .marquee{
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:clamp(14px,3vw,26px) 0;overflow:hidden;
+  }
+  .m-track{display:flex;width:max-content;will-change:transform}
+  .m-group{display:flex;align-items:center;flex:none}
+  .m-word{
+    font-family:"Anton",Impact,sans-serif;font-weight:400;
+    font-size:clamp(2.4rem,8.5vw,6.5rem);line-height:1;text-transform:lowercase;
+    letter-spacing:.01em;color:var(--bone);white-space:nowrap;padding:0 .28em;
+  }
+  .m-group:nth-child(2) .m-word:nth-child(odd),
+  .m-word.ghost{color:transparent;-webkit-text-stroke:1px var(--faint)}
+  .m-sep{
+    width:clamp(12px,2.2vw,20px);height:clamp(12px,2.2vw,20px);
+    background:var(--glow);transform:rotate(45deg);flex:none;
+    box-shadow:0 0 16px rgba(255,42,30,.4);
+  }
+
+  /* ---------- MANIFESTO ---------- */
+  .manifesto{
+    min-height:60vh;display:flex;align-items:center;
+    padding:clamp(80px,16vh,200px) var(--pad);
+  }
+  .manifesto p{
+    font-family:"Anton",Impact,sans-serif;font-weight:400;
+    font-size:clamp(1.9rem,6.4vw,4.6rem);line-height:1.04;
+    text-transform:lowercase;letter-spacing:.004em;
+    max-width:18ch;color:var(--bone);
+  }
+  .manifesto .word{display:inline-block;opacity:1}
+  .manifesto .word.rojo{color:var(--glow)}
+
+  /* ---------- CARTA ---------- */
+  .carta{padding:0 var(--pad)}
+  .carta-head{
+    display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+    padding:clamp(40px,9vh,90px) 0 clamp(20px,4vh,40px);
+    border-bottom:1px solid var(--line);
+  }
+  .carta-head h2{
+    font-family:"Anton",Impact,sans-serif;font-weight:400;text-transform:lowercase;
+    font-size:clamp(1.4rem,5vw,2.4rem);letter-spacing:.01em;color:var(--bone);
+  }
+  .carta-head .count{font:400 12px/1 "Space Mono",monospace;letter-spacing:.2em;color:var(--mute)}
+
+  .plato{
+    padding:clamp(64px,14vh,160px) 0;
+    border-bottom:1px solid var(--line);
+  }
+  .plato-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:clamp(20px,4vh,34px)}
+  .idx{
+    font:700 12px/1 "Space Mono",monospace;letter-spacing:.16em;color:var(--blood);
+    padding-top:.6em;flex:none;
+  }
+  .plato-name{
+    font-family:"Anton",Impact,sans-serif;font-weight:400;text-transform:lowercase;
+    font-size:clamp(2.6rem,12vw,7rem);line-height:.86;letter-spacing:-.003em;color:var(--bone);
+    will-change:transform;
+  }
+  .plato-media{margin:clamp(20px,4vh,34px) 0}
+  .reveal{
+    position:relative;overflow:hidden;background:var(--ink);
+    aspect-ratio:4/5;border:1px solid var(--line);
+  }
+  .reveal::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg,rgba(10,10,12,.06),rgba(10,10,12,.5));
+  }
+  .reveal img{
+    width:100%;height:100%;object-fit:cover;
+    filter:grayscale(.28) contrast(1.08) brightness(.92);
+    will-change:transform;
+  }
+  .plato-meta{
+    display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  }
+  .plato-line{font-size:15px;line-height:1.55;color:#c5c2ba;max-width:42ch}
+  .plato-line em{font-style:italic;color:var(--mute)}
+  .plato-time{
+    font:700 clamp(1.5rem,6vw,2.6rem)/1 "Space Mono",monospace;
+    color:var(--bone);letter-spacing:.01em;display:inline-flex;align-items:center;gap:.45ch;flex:none;
+  }
+  .plato-time::before{
+    content:"";width:.42em;height:.42em;background:var(--blood);transform:rotate(45deg);flex:none;
+  }
+
+  /* void plato (nada) */
+  .plato--void{text-align:center;padding:clamp(90px,22vh,240px) 0}
+  .void-name{
+    font-family:"Anton",Impact,sans-serif;font-weight:400;text-transform:lowercase;
+    font-size:clamp(5rem,30vw,18rem);line-height:.8;letter-spacing:-.01em;
+    color:var(--bone);position:relative;
+  }
+  .void-name::after{
+    content:"";position:absolute;left:50%;top:50%;width:60vmax;height:60vmax;
+    transform:translate(-50%,-50%);z-index:-1;pointer-events:none;
+    background:radial-gradient(closest-side,rgba(225,18,33,.10),transparent 70%);
+  }
+  .void-line{margin:clamp(20px,5vh,40px) auto 0;max-width:34ch;color:#c5c2ba;font-size:15px}
+  .void-time{justify-content:center;margin-top:clamp(18px,4vh,32px)}
+
+  /* ---------- CTA ---------- */
+  .cta{padding:clamp(110px,24vh,280px) var(--pad)}
+  .cta-kicker{
+    font:700 11px/1 "Space Mono",monospace;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--faint);margin-bottom:clamp(22px,5vh,40px);
+  }
+  .cta-link{display:inline-block;color:var(--bone)}
+  .cta-text{
+    font-family:"Anton",Impact,sans-serif;font-weight:400;text-transform:lowercase;
+    font-size:clamp(2.8rem,12vw,8rem);line-height:.9;letter-spacing:-.005em;
+    display:block;max-width:16ch;
+  }
+  .cta-em{position:relative;white-space:nowrap}
+  .cta-em::after{
+    content:"";position:absolute;left:0;right:0;bottom:.04em;height:.07em;
+    background:var(--glow);transform:scaleX(0);transform-origin:0 50%;
+    transition:transform .5s cubic-bezier(.2,.7,.2,1);
+  }
+  .cta-link:hover .cta-em::after,.cta-link:focus-visible .cta-em::after,.cta-em.drawn::after{transform:scaleX(1)}
+  .cta-arrow{
+    display:inline-flex;align-items:center;gap:.5ch;margin-top:clamp(20px,4vh,36px);
+    font:700 13px/1 "Space Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--glow);
+  }
+  .cta-arrow b{font-size:18px;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+  .cta-link:hover .cta-arrow b,.cta-link:focus-visible .cta-arrow b{transform:translateX(8px)}
+
+  /* ---------- FOOTER ---------- */
+  .foot{
+    border-top:1px solid var(--line);
+    padding:clamp(40px,9vh,80px) var(--pad) calc(40px + env(safe-area-inset-bottom));
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .foot-line{font-size:12.5px;line-height:1.7;color:var(--mute);max-width:60ch}
+  .foot-tag{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+  .foot-brand{
+    margin-top:clamp(20px,5vh,40px);
+    font-family:"Anton",Impact,sans-serif;font-weight:400;text-transform:lowercase;
+    font-size:clamp(3rem,16vw,9rem);line-height:.85;color:var(--bone);
+  }
+  .foot-brand .dot{color:var(--glow)}
+
+  /* ---------- DESKTOP EDITORIAL SPLIT ---------- */
+  @media (min-width:820px){
+    .hero-title{font-size:clamp(7rem,14vw,13rem)}
+    .plato{
+      display:grid;grid-template-columns:1fr 1fr;
+      grid-template-areas:"head media" "meta media";
+      column-gap:clamp(40px,5vw,110px);row-gap:clamp(24px,4vh,48px);
+      align-content:center;
+    }
+    .plato-head{grid-area:head;align-self:end;margin-bottom:0}
+    .plato-media{grid-area:media;margin:0;align-self:stretch}
+    .plato-meta{grid-area:meta;align-self:start;flex-direction:column;align-items:flex-start;gap:24px}
+    .plato:nth-child(even){grid-template-areas:"media head" "media meta"}
+    .reveal{height:100%;aspect-ratio:auto;min-height:62vh}
+    .plato--void{display:block;text-align:center}
+  }
+
+  /* ---------- REDUCED MOTION ---------- */
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .reveal img{filter:grayscale(.25) contrast(1.05)}
+  }
+</style>
+</head>
+<body id="top">
+<a class="skip" href="#carta">saltar a la carta</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<nav class="nav" id="nav" aria-label="principal">
+  <a class="brand" href="#top"><i aria-hidden="true"></i>ghosttacoboy</a>
+  <a class="nav-cta" href="#cta">la carta &darr;</a>
+</nav>
+
+<main>
+  <!-- ATTENTION -->
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="tagline"><b>city lights, empty heart.</b></p>
+      <h1 class="hero-title">qué puedes hacer <span class="rojo">conmigo</span></h1>
+      <p class="hero-sub">una carta de siete platos. ninguno es comida. <em>scroll, if you want.</em></p>
+      <p class="cue"><span aria-hidden="true"></span>bajá despacio</p>
+    </div>
+  </header>
+
+  <!-- kinetic title in motion -->
+  <section class="marquee" aria-hidden="true">
+    <div class="m-track" id="marqueeTrack">
+      <div class="m-group">
+        <span class="m-word">qué puedes hacer conmigo</span><span class="m-sep"></span>
+        <span class="m-word ghost">qué puedes hacer conmigo</span><span class="m-sep"></span>
+        <span class="m-word">qué puedes hacer conmigo</span><span class="m-sep"></span>
+        <span class="m-word ghost">qué puedes hacer conmigo</span><span class="m-sep"></span>
+      </div>
+      <div class="m-group" aria-hidden="true">
+        <span class="m-word">qué puedes hacer conmigo</span><span class="m-sep"></span>
+        <span class="m-word ghost">qué puedes hacer conmigo</span><span class="m-sep"></span>
+        <span class="m-word">qué puedes hacer conmigo</span><span class="m-sep"></span>
+        <span class="m-word ghost">qué puedes hacer conmigo</span><span class="m-sep"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTEREST: framing -->
+  <section class="manifesto" id="manifesto">
+    <p>
+      <span class="word">no</span> <span class="word">vendo</span> <span class="word">paquetes.</span>
+      <span class="word">no</span> <span class="word">hay</span> <span class="word">precios</span> <span class="word">reales,</span>
+      <span class="word">solo</span> <span class="word">horas</span> <span class="word">raras</span>
+      <span class="word">y</span> <span class="word">una</span> <span class="word">cámara.</span>
+      <span class="word">elegí</span> <span class="word">algo.</span>
+      <span class="word rojo">o</span> <span class="word rojo">nada</span><span class="word rojo">,</span>
+      <span class="word">también</span> <span class="word">es</span> <span class="word">un</span> <span class="word">plato.</span>
+    </p>
+  </section>
+
+  <!-- DESIRE: the seven, revealed with motion -->
+  <section class="carta" id="carta" aria-label="la carta">
+    <div class="carta-head">
+      <h2>la carta</h2>
+      <span class="count">07 platos</span>
+    </div>
+
+    <article class="plato">
+      <div class="plato-head"><span class="idx">01</span><h3 class="plato-name">vuelta sin rumbo</h3></div>
+      <div class="plato-media"><div class="reveal"><img src="../img/drive.jpg" alt="Carretera nocturna vista desde el carro" loading="lazy" decoding="async" /></div></div>
+      <div class="plato-meta">
+        <p class="plato-line">el carro, la ciudad, ningún destino. no hablamos de eso.</p>
+        <div class="plato-time">23:00</div>
+      </div>
+    </article>
+
+    <article class="plato">
+      <div class="plato-head"><span class="idx">02</span><h3 class="plato-name">sos la musa</h3></div>
+      <div class="plato-media"><div class="reveal"><img src="../img/room.jpg" alt="Cuarto oscuro con TV de tubo en estática y cojines de rosas" loading="lazy" decoding="async" /></div></div>
+      <div class="plato-meta">
+        <p class="plato-line">vos al frente del lente. yo atrás, que es donde me siento seguro.</p>
+        <div class="plato-time">&infin;</div>
+      </div>
+    </article>
+
+    <article class="plato">
+      <div class="plato-head"><span class="idx">03</span><h3 class="plato-name">luces rojas</h3></div>
+      <div class="plato-media"><div class="reveal"><img src="../img/club.jpg" alt="Concierto en luz roja, multitud y una camcorder" loading="lazy" decoding="async" /></div></div>
+      <div class="plato-meta">
+        <p class="plato-line">te llevo a donde el bajo no deja pensar. toque, disco, lo que caiga.</p>
+        <div class="plato-time">02:00</div>
+      </div>
+    </article>
+
+    <article class="plato">
+      <div class="plato-head"><span class="idx">04</span><h3 class="plato-name">caja cerrada</h3></div>
+      <div class="plato-media"><div class="reveal"><img src="../img/caja.jpg" alt="Letrero rojo de súper que dice caja cerrada" loading="lazy" decoding="async" /></div></div>
+      <div class="plato-meta">
+        <p class="plato-line">te explico por qué le tomo foto a un letrero de súper. nadie más entiende esto.</p>
+        <div class="plato-time">&mdash;</div>
+      </div>
+    </article>
+
+    <article class="plato">
+      <div class="plato-head"><span class="idx">05</span><h3 class="plato-name">drive a las 3am</h3></div>
+      <div class="plato-media"><div class="reveal"><img src="../img/moon.jpg" alt="Luna llena entre las ramas" loading="lazy" decoding="async" /></div></div>
+      <div class="plato-meta">
+        <p class="plato-line">ventana abajo, la luna nos sigue. <em>one day i'll replay this.</em></p>
+        <div class="plato-time">03:00</div>
+      </div>
+    </article>
+
+    <article class="plato">
+      <div class="plato-head"><span class="idx">06</span><h3 class="plato-name">misión antojo</h3></div>
+      <div class="plato-media"><div class="reveal"><img src="../img/highway.jpg" alt="Autopista nublada y melancólica vista desde el carro" loading="lazy" decoding="async" /></div></div>
+      <div class="plato-meta">
+        <p class="plato-line">mcdonald's, gasolinera, una lata de monster. cero glamour, máxima data.</p>
+        <div class="plato-time">01:30</div>
+      </div>
+    </article>
+
+    <article class="plato plato--void">
+      <div class="plato-head" style="justify-content:center"><span class="idx">07</span></div>
+      <h3 class="void-name">nada</h3>
+      <p class="void-line">callados, viendo la bahía. es mi especialidad.</p>
+      <div class="plato-time void-time">siempre</div>
+    </article>
+  </section>
+
+  <!-- ACTION -->
+  <section class="cta" id="cta">
+    <p class="cta-kicker">fin de la carta</p>
+    <a class="cta-link" href="https://instagram.com/ghosttacoboy" target="_blank" rel="noopener noreferrer">
+      <span class="cta-text">si llegaste hasta acá, <span class="cta-em">escríbeme</span></span>
+      <span class="cta-arrow">@ghosttacoboy <b aria-hidden="true">&rarr;</b></span>
+    </a>
+  </section>
+
+  <footer class="foot">
+    <p class="foot-line">el man solitario&trade; · resultados no garantizados · no tengo amigos (mentira, tengo uno)</p>
+    <p class="foot-tag">city lights, empty heart.</p>
+    <p class="foot-brand">ghosttacoboy<span class="dot">.</span></p>
+  </footer>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  var doc = document.documentElement;
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* progress bar + nav state — lightweight, always on, harmless under reduced motion */
+  var bar = document.getElementById("progress");
+  var nav = document.getElementById("nav");
+  var ticking = false;
+  function paint(){
+    var max = doc.scrollHeight - doc.clientHeight;
+    var y = window.pageYOffset || doc.scrollTop || 0;
+    var p = max > 0 ? y / max : 0;
+    if(bar) bar.style.transform = "scaleX(" + p + ")";
+    if(nav) nav.classList.toggle("is-scrolled", y > 24);
+    ticking = false;
+  }
+  window.addEventListener("scroll", function(){
+    if(!ticking){ ticking = true; window.requestAnimationFrame(paint); }
+  }, {passive:true});
+  paint();
+
+  /* No enhancement when motion is off or GSAP failed to load: content stays fully visible/static. */
+  if(reduce || typeof window.gsap === "undefined" || typeof window.ScrollTrigger === "undefined"){
+    doc.classList.add("no-motion");
+    var em = document.querySelector(".cta-em");
+    if(em) em.classList.add("drawn");
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize:true });
+  doc.classList.add("gsap-ready");
+
+  /* hero parallax + fade as you leave it */
+  gsap.to(".hero-inner", {
+    yPercent:16, opacity:0, ease:"none",
+    scrollTrigger:{ trigger:".hero", start:"top top", end:"bottom top", scrub:true }
+  });
+
+  /* kinetic marquee: base loop, speed + skew react to scroll velocity */
+  var track = document.getElementById("marqueeTrack");
+  if(track){
+    var loop = gsap.to(track, { xPercent:-50, repeat:-1, duration:22, ease:"none" });
+    var clampSkew = gsap.utils.clamp(-14, 14);
+    var quickSkew = gsap.quickTo(track, "skewX", { duration:0.5, ease:"power3" });
+    ScrollTrigger.create({
+      start:0, end:"max",
+      onUpdate:function(self){
+        var v = self.getVelocity();
+        loop.timeScale(1 + Math.min(Math.abs(v) / 900, 3));
+        quickSkew(clampSkew(v / 260));
+        clearTimeout(track._t);
+        track._t = setTimeout(function(){ loop.timeScale(1); quickSkew(0); }, 200);
+      }
+    });
+  }
+
+  /* manifesto: word-by-word scrub. pinned on desktop, native scrub on mobile (no jacking). */
+  var mm = gsap.matchMedia();
+  var words = gsap.utils.toArray(".manifesto .word");
+
+  mm.add("(min-width: 820px)", function(){
+    gsap.set(words, { opacity:0.14 });
+    gsap.timeline({
+      scrollTrigger:{ trigger:".manifesto", start:"top top", end:"+=130%", pin:true, scrub:0.6 }
+    }).to(words, { opacity:1, stagger:0.5, ease:"none" });
+  });
+
+  mm.add("(max-width: 819px)", function(){
+    gsap.set(words, { opacity:0.16 });
+    gsap.to(words, {
+      opacity:1, stagger:0.5, ease:"none",
+      scrollTrigger:{ trigger:".manifesto", start:"top 78%", end:"bottom 52%", scrub:0.6 }
+    });
+  });
+
+  /* per-plato motion: clip-path reveal in, image scale scrub, text rise, name drift */
+  gsap.utils.toArray(".plato").forEach(function(p){
+    var media = p.querySelector(".reveal");
+    var img   = p.querySelector(".reveal img");
+    var name  = p.querySelector(".plato-name, .void-name");
+    var bits  = p.querySelectorAll(".plato-head > *, .plato-meta > *, .void-line, .void-time");
+
+    if(media && img){
+      gsap.set(media, { clipPath:"inset(100% 0 0 0)" });
+      gsap.set(img,   { scale:1.3 });
+      gsap.to(media, {
+        clipPath:"inset(0% 0 0 0)", ease:"power3.out", duration:1.15,
+        scrollTrigger:{ trigger:p, start:"top 82%" }
+      });
+      gsap.to(img, {
+        scale:1, ease:"none",
+        scrollTrigger:{ trigger:p, start:"top bottom", end:"bottom top", scrub:true }
+      });
+    }
+
+    if(name){
+      gsap.fromTo(name, { yPercent:0 }, {
+        yPercent:-16, ease:"none",
+        scrollTrigger:{ trigger:p, start:"top bottom", end:"bottom top", scrub:true }
+      });
+    }
+
+    if(bits.length){
+      gsap.from(bits, {
+        y:34, opacity:0, duration:0.9, stagger:0.07, ease:"power3.out",
+        scrollTrigger:{ trigger:p, start:"top 80%" }
+      });
+    }
+  });
+
+  /* CTA underline draw-in */
+  var em2 = document.querySelector(".cta-em");
+  if(em2){
+    ScrollTrigger.create({
+      trigger:".cta", start:"top 70%",
+      onEnter:function(){ em2.classList.add("drawn"); },
+      onLeaveBack:function(){ em2.classList.remove("drawn"); }
+    });
+  }
+
+  /* recalc once fonts/images settle */
+  window.addEventListener("load", function(){ ScrollTrigger.refresh(); });
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(function(){ ScrollTrigger.refresh(); });
+  }
+})();
+</script>
+</body>
+</html>

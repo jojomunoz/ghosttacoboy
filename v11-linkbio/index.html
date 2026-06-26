@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0A0C">
+<meta name="color-scheme" content="dark">
+<title>ghosttacoboy — qué puedes hacer conmigo</title>
+<meta name="description" content="city lights, empty heart. el menú de lo que podés hacer conmigo. si llegaste hasta acá, escríbeme.">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="qué puedes hacer conmigo">
+<meta property="og:description" content="city lights, empty heart.">
+<meta property="og:image" content="../img/caja.jpg">
+<meta property="og:site_name" content="ghosttacoboy">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="qué puedes hacer conmigo">
+<meta name="twitter:description" content="city lights, empty heart.">
+<meta name="twitter:image" content="../img/caja.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --void:#0A0A0C;
+    --panel:#101013;
+    --panel-2:#15151a;
+    --line:#23232b;
+    --bone:#ECE8E1;
+    --muted:#a7a29a;
+    --blood:#E11221;
+    --glow:#FF2A1E;
+    --radius:14px;
+    --tap:52px;
+    --maxw:460px;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--void);
+    color:var(--bone);
+    font-family:"Bricolage Grotesque",system-ui,-apple-system,Segoe UI,Helvetica,sans-serif;
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:max(20px,env(safe-area-inset-top)) 18px max(28px,env(safe-area-inset-bottom));
+  }
+
+  /* faint city-light haze + grain, kept cheap and static */
+  body::before{
+    content:"";
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(120% 80% at 50% -10%, rgba(225,18,33,.10), transparent 55%),
+      radial-gradient(90% 60% at 50% 120%, rgba(255,42,30,.05), transparent 60%);
+  }
+  body::after{
+    content:"";
+    position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .skip{
+    position:absolute; left:-9999px; top:0;
+    background:var(--bone); color:var(--void);
+    padding:10px 14px; border-radius:8px; z-index:10; font-weight:600;
+  }
+  .skip:focus{left:12px; top:12px}
+
+  .wrap{
+    position:relative; z-index:1;
+    width:100%; max-width:var(--maxw);
+    display:flex; flex-direction:column; gap:26px;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px; padding-top:14px}
+  .status{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:"Space Mono",monospace; font-size:.72rem;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
+  }
+  .dot{
+    width:7px; height:7px; border-radius:50%; background:var(--blood);
+    animation:blink 3.4s steps(1,end) infinite;
+  }
+  @keyframes blink{0%,72%{opacity:1}80%,92%{opacity:.25}}
+  .brand{
+    margin:2px 0 0; font-weight:700; font-size:clamp(2.1rem,9vw,2.7rem);
+    letter-spacing:-.035em; line-height:1; color:var(--bone);
+  }
+  .tagline{
+    margin:0; font-family:"Space Mono",monospace; font-size:.86rem;
+    color:var(--muted); letter-spacing:.02em;
+  }
+
+  /* ---------- menu ---------- */
+  .menu{display:flex; flex-direction:column; gap:12px}
+  .eyebrow{
+    display:flex; align-items:center; gap:10px;
+    font-family:"Space Mono",monospace; font-size:.72rem;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+  }
+  .eyebrow::after{content:""; flex:1; height:1px; background:var(--line)}
+  .menu-title{
+    margin:0 0 6px; font-weight:600; font-size:1.12rem; letter-spacing:-.01em; color:var(--bone);
+  }
+
+  .cards{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px}
+
+  .card{
+    position:relative; width:100%; min-height:84px;
+    display:flex; align-items:center; gap:14px;
+    text-align:left; cursor:pointer;
+    background:var(--panel); color:var(--bone);
+    border:1px solid var(--line); border-radius:var(--radius);
+    padding:12px; font:inherit;
+    transition:transform .16s ease, border-color .16s ease, background .16s ease;
+  }
+  .card:hover{background:var(--panel-2); border-color:#34343e; transform:translateY(-2px)}
+  .card:active{transform:translateY(0) scale(.992)}
+  .card[aria-pressed="true"]{
+    border-color:var(--blood);
+    background:linear-gradient(0deg, rgba(225,18,33,.07), rgba(225,18,33,.07)), var(--panel-2);
+  }
+  .card[aria-pressed="true"]::after{
+    content:""; position:absolute; left:0; top:14px; bottom:14px; width:3px;
+    border-radius:0 3px 3px 0; background:var(--glow);
+  }
+
+  .thumb{
+    flex:0 0 auto; width:62px; height:62px; border-radius:10px; overflow:hidden;
+    background:#0d0d10; border:1px solid var(--line);
+    display:grid; place-items:center;
+  }
+  .thumb img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    filter:saturate(.85) brightness(.82) contrast(1.02);
+    transition:filter .2s ease;
+  }
+  .card:hover .thumb img,.card[aria-pressed="true"] .thumb img{filter:saturate(1) brightness(1)}
+  .thumb--empty{font-family:"Space Mono",monospace; color:#3c3c46; font-size:1.4rem}
+
+  .card-body{flex:1 1 auto; min-width:0; display:flex; flex-direction:column; gap:3px}
+  .card-name{font-weight:600; font-size:1rem; letter-spacing:-.01em; color:var(--bone)}
+  .card-line{font-size:.8rem; line-height:1.32; color:var(--muted)}
+
+  .price{
+    flex:0 0 auto; align-self:flex-start;
+    font-family:"Space Mono",monospace; font-size:.78rem; font-weight:700;
+    color:var(--bone); letter-spacing:.02em; white-space:nowrap;
+    padding:4px 8px; border:1px solid var(--line); border-radius:7px; background:#0d0d10;
+  }
+  .card[aria-pressed="true"] .price{border-color:rgba(225,18,33,.5); color:#ffd9d6}
+
+  /* ---------- cta ---------- */
+  .cta-zone{display:flex; flex-direction:column; gap:12px; margin-top:2px}
+  .pick{
+    margin:0; text-align:center; font-family:"Space Mono",monospace;
+    font-size:.8rem; letter-spacing:.01em; color:var(--muted);
+    min-height:1.2em; transition:color .2s ease;
+  }
+  .pick[data-state="chosen"]{color:var(--bone)}
+  .pick[data-state="chosen"] b{color:var(--glow); font-weight:700}
+
+  .cta{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    min-height:56px; padding:14px 18px;
+    background:var(--blood); color:var(--bone);
+    text-decoration:none; font-weight:700; font-size:1.02rem; letter-spacing:-.005em;
+    border-radius:var(--radius); border:1px solid var(--glow);
+    box-shadow:0 1px 0 0 rgba(255,255,255,.06) inset;
+    transition:transform .16s ease, background .16s ease;
+  }
+  .cta:hover{background:#f01528; transform:translateY(-2px)}
+  .cta:active{transform:translateY(0)}
+  .cta .arrow{font-family:"Space Mono",monospace; transition:transform .16s ease}
+  .cta:hover .arrow{transform:translateX(3px)}
+  /* selection cue: brighten the primary action, no decorative glow */
+  .cta-zone.ready .cta{background:#f01528}
+
+  /* ---------- footer ---------- */
+  .foot{
+    margin-top:8px; text-align:center;
+    font-family:"Space Mono",monospace; font-size:.7rem; line-height:1.7;
+    color:#6f6b64; letter-spacing:.01em;
+  }
+  .foot .tm{color:var(--muted)}
+
+  /* ---------- a11y ---------- */
+  .vh{position:absolute!important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0}
+  :focus-visible{outline:3px solid var(--glow); outline-offset:3px; border-radius:6px}
+  .card:focus-visible{outline-offset:2px}
+
+  @media (min-width:430px){
+    .card-line{font-size:.82rem}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important}
+    .card:hover,.cta:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">saltar al contenido</a>
+
+<main class="wrap" id="main">
+
+  <header class="hero">
+    <span class="status"><span class="dot" aria-hidden="true"></span> en línea · ciudad de panamá</span>
+    <h1 class="brand">ghosttacoboy</h1>
+    <p class="tagline">city lights, empty heart.</p>
+  </header>
+
+  <section class="menu" aria-labelledby="menu-title">
+    <p class="eyebrow">el menú</p>
+    <h2 class="menu-title" id="menu-title">qué puedes hacer conmigo</h2>
+
+    <ul class="cards" role="list">
+
+      <li>
+        <button class="card" type="button" aria-pressed="false" data-name="vuelta sin rumbo">
+          <span class="thumb"><img src="../img/drive.jpg" alt="carretera nocturna vista desde el carro" loading="lazy" width="62" height="62"></span>
+          <span class="card-body">
+            <span class="card-name">vuelta sin rumbo</span>
+            <span class="card-line">el carro, la ciudad, ningún destino. no hablamos de eso.</span>
+          </span>
+          <span class="price"><span class="vh">horario </span>23:00</span>
+        </button>
+      </li>
+
+      <li>
+        <button class="card" type="button" aria-pressed="false" data-name="sos la musa">
+          <span class="thumb"><img src="../img/room.jpg" alt="cuarto oscuro con tv de tubo en estática y cojines de rosas" loading="lazy" width="62" height="62"></span>
+          <span class="card-body">
+            <span class="card-name">sos la musa</span>
+            <span class="card-line">vos al frente del lente. yo atrás, que es donde me siento seguro.</span>
+          </span>
+          <span class="price"><span class="vh">horario </span>∞</span>
+        </button>
+      </li>
+
+      <li>
+        <button class="card" type="button" aria-pressed="false" data-name="luces rojas">
+          <span class="thumb"><img src="../img/club.jpg" alt="concierto en luz roja, multitud y camcorder" loading="lazy" width="62" height="62"></span>
+          <span class="card-body">
+            <span class="card-name">luces rojas</span>
+            <span class="card-line">te llevo a donde el bajo no deja pensar. toque, disco, lo que caiga.</span>
+          </span>
+          <span class="price"><span class="vh">horario </span>02:00</span>
+        </button>
+      </li>
+
+      <li>
+        <button class="card" type="button" aria-pressed="false" data-name="caja cerrada">
+          <span class="thumb"><img src="../img/caja.jpg" alt="letrero rojo de súper que dice caja cerrada" loading="lazy" width="62" height="62"></span>
+          <span class="card-body">
+            <span class="card-name">caja cerrada</span>
+            <span class="card-line">te explico por qué le tomo foto a un letrero de súper. nadie más entiende esto.</span>
+          </span>
+          <span class="price"><span class="vh">horario </span>—</span>
+        </button>
+      </li>
+
+      <li>
+        <button class="card" type="button" aria-pressed="false" data-name="drive a las 3am">
+          <span class="thumb"><img src="../img/moon.jpg" alt="luna llena entre las ramas" loading="lazy" width="62" height="62"></span>
+          <span class="card-body">
+            <span class="card-name">drive a las 3am</span>
+            <span class="card-line">ventana abajo, la luna nos sigue. one day i'll replay this.</span>
+          </span>
+          <span class="price"><span class="vh">horario </span>03:00</span>
+        </button>
+      </li>
+
+      <li>
+        <button class="card" type="button" aria-pressed="false" data-name="misión antojo">
+          <span class="thumb"><img src="../img/highway.jpg" alt="autopista nublada y melancólica vista desde el carro" loading="lazy" width="62" height="62"></span>
+          <span class="card-body">
+            <span class="card-name">misión antojo</span>
+            <span class="card-line">mcdonald's, gasolinera, una lata de monster. cero glamour, máxima data.</span>
+          </span>
+          <span class="price"><span class="vh">horario </span>01:30</span>
+        </button>
+      </li>
+
+      <li>
+        <button class="card" type="button" aria-pressed="false" data-name="nada">
+          <span class="thumb thumb--empty" aria-hidden="true">—</span>
+          <span class="card-body">
+            <span class="card-name">nada</span>
+            <span class="card-line">callados, viendo la bahía. es mi especialidad.</span>
+          </span>
+          <span class="price"><span class="vh">horario </span>siempre</span>
+        </button>
+      </li>
+
+    </ul>
+  </section>
+
+  <section class="cta-zone" id="ctaZone" aria-labelledby="cta">
+    <p class="pick" id="pick" data-state="empty" aria-live="polite">no elegiste nada todavía. también es una opción.</p>
+    <a class="cta" id="cta" href="https://instagram.com/ghosttacoboy" target="_blank" rel="noopener noreferrer">
+      si llegaste hasta acá, escríbeme <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </section>
+
+  <footer class="foot">
+    <p><span class="tm">el man solitario™</span> · resultados no garantizados · no tengo amigos (mentira, tengo uno)</p>
+  </footer>
+
+</main>
+
+<script>
+  (function(){
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+    var pick  = document.getElementById('pick');
+    var zone  = document.getElementById('ctaZone');
+    var current = null;
+
+    function reset(){
+      cards.forEach(function(c){ c.setAttribute('aria-pressed','false'); });
+    }
+    function clearPick(){
+      current = null;
+      pick.dataset.state = 'empty';
+      pick.textContent = 'no elegiste nada todavía. también es una opción.';
+      zone.classList.remove('ready');
+    }
+
+    cards.forEach(function(card){
+      card.addEventListener('click', function(){
+        if (current === card){ reset(); clearPick(); return; }
+        reset();
+        card.setAttribute('aria-pressed','true');
+        current = card;
+        pick.dataset.state = 'chosen';
+        pick.innerHTML = 'elegiste: <b></b>';
+        pick.querySelector('b').textContent = card.dataset.name;
+        zone.classList.add('ready');
+      });
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ghosttacoboy — qué puedes hacer conmigo</title>
+<meta name="description" content="city lights, empty heart. un letrero de neón y siete cosas que podemos hacer de noche.">
+<meta name="theme-color" content="#0A0A0C">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="qué puedes hacer conmigo">
+<meta property="og:description" content="city lights, empty heart.">
+<meta property="og:image" content="../img/caja.jpg">
+<meta property="og:site_name" content="ghosttacoboy">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="qué puedes hacer conmigo">
+<meta name="twitter:description" content="city lights, empty heart.">
+<meta name="twitter:image" content="../img/caja.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --void:#0A0A0C;
+    --bone:#ECE8E1;
+    --blood:#E11221;
+    --glow:#FF2A1E;
+    --dim:rgba(236,232,225,.62);
+    --faint:rgba(236,232,225,.34);
+    --line:rgba(236,232,225,.11);
+    --line-hot:rgba(255,42,30,.45);
+  }
+
+  *{box-sizing:border-box}
+
+  html{-webkit-text-size-adjust:100%}
+
+  body{
+    margin:0;
+    background:var(--void);
+    color:var(--bone);
+    font-family:'Space Mono', ui-monospace, "SFMono-Regular", Menlo, monospace;
+    font-size:15px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    background-image:radial-gradient(125% 55% at 50% -6%, rgba(225,18,33,.16), rgba(225,18,33,0) 58%);
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    overflow-x:hidden;
+  }
+
+  .wrap{
+    width:100%;
+    max-width:580px;
+    margin:0 auto;
+    padding:0 22px;
+  }
+
+  ::selection{background:var(--glow);color:#0A0A0C}
+
+  a:focus-visible,
+  :focus-visible{
+    outline:2px solid var(--glow);
+    outline-offset:3px;
+    border-radius:1px;
+  }
+
+  /* ---------- HERO / NEON ---------- */
+  .hero{
+    padding:clamp(46px,13vh,104px) 0 30px;
+    text-align:center;
+  }
+
+  .neon-stage{
+    position:relative;
+    width:100%;
+  }
+
+  .neon{
+    width:100%;
+    max-width:560px;
+    height:auto;
+    margin:0 auto;
+    display:block;
+    overflow:visible;
+  }
+
+  .neon text{
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    font-size:62px;
+    letter-spacing:-1px;
+  }
+
+  .halo{ fill:var(--glow); opacity:.5; }
+  .mid { fill:var(--blood); opacity:.9; }
+  .tube{ fill:#FFE7E3; stroke:#FFD2CC; stroke-width:.4; }
+
+  .tagline{
+    margin:20px auto 0;
+    font-size:12.5px;
+    letter-spacing:.2em;
+    color:var(--dim);
+    text-transform:lowercase;
+  }
+  .tagline .pipe{color:var(--glow);opacity:.8;padding:0 .35em}
+
+  /* ---------- MENU ---------- */
+  .menu-section{padding:30px 0 8px}
+
+  .eyebrow{
+    font-size:10.5px;
+    letter-spacing:.34em;
+    text-transform:uppercase;
+    color:var(--faint);
+    margin:0 0 10px;
+  }
+
+  h1.section-title{
+    font-size:19px;
+    font-weight:700;
+    line-height:1.25;
+    letter-spacing:.005em;
+    margin:0;
+    color:var(--bone);
+  }
+  h1.section-title::before{
+    content:"";
+    display:inline-block;
+    width:7px;height:7px;
+    margin-right:9px;
+    border-radius:50%;
+    background:var(--glow);
+    box-shadow:0 0 8px var(--glow),0 0 2px #fff;
+    vertical-align:middle;
+    transform:translateY(-2px);
+  }
+
+  .menu-note{
+    margin:11px 0 6px;
+    font-size:11.5px;
+    color:var(--faint);
+    letter-spacing:.02em;
+  }
+
+  ul.menu{
+    list-style:none;
+    margin:18px 0 0;
+    padding:0;
+    border-top:1px solid var(--line);
+  }
+
+  .dish{
+    display:grid;
+    grid-template-columns:3px 1fr 52px;
+    column-gap:14px;
+    align-items:start;
+    padding:18px 2px;
+    border-bottom:1px solid var(--line);
+    transition:background .25s ease;
+  }
+  @media (hover:hover){
+    .dish:hover{background:rgba(255,42,30,.04)}
+    .dish:hover .name{color:#fff;text-shadow:0 0 12px rgba(255,42,30,.35)}
+    .dish:hover .thumb{filter:grayscale(.15) brightness(.92) contrast(1.05);opacity:1;border-color:var(--line-hot)}
+    .dish:hover .tick{
+      background:linear-gradient(rgba(255,42,30,0),var(--glow) 45%,rgba(255,42,30,0));
+      box-shadow:0 0 11px rgba(255,42,30,.65);
+    }
+  }
+
+  /* a thin unlit neon tube segment per row, lights up on hover */
+  .tick{
+    width:3px;
+    align-self:stretch;
+    border-radius:2px;
+    background:linear-gradient(rgba(255,42,30,0),rgba(255,42,30,.26) 45%,rgba(255,42,30,0));
+    transition:background .3s ease,box-shadow .3s ease;
+  }
+
+  .body{min-width:0}
+
+  .name-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+  }
+  .name{
+    font-size:16px;
+    font-weight:700;
+    letter-spacing:.005em;
+    color:var(--bone);
+    transition:color .25s ease,text-shadow .25s ease;
+  }
+  .time{
+    font-size:11.5px;
+    color:var(--dim);
+    white-space:nowrap;
+    letter-spacing:.06em;
+    padding-top:2px;
+  }
+  .desc{
+    margin:6px 0 0;
+    font-size:13px;
+    line-height:1.55;
+    color:var(--dim);
+  }
+
+  .thumb{
+    width:52px;height:70px;
+    object-fit:cover;
+    border:1px solid var(--line);
+    filter:grayscale(1) brightness(.62) contrast(1.05);
+    opacity:.72;
+    transition:filter .3s ease,opacity .3s ease,border-color .3s ease;
+    align-self:center;
+  }
+  .thumb.empty{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:repeating-linear-gradient(45deg,rgba(236,232,225,.04) 0 6px,transparent 6px 12px);
+    color:var(--faint);
+    font-size:14px;
+    filter:none;
+    opacity:.6;
+  }
+
+  /* ---------- CTA ---------- */
+  .cta{
+    text-align:center;
+    padding:40px 0 14px;
+  }
+  .cta a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:52px;
+    padding:15px 26px;
+    border:1px solid var(--line-hot);
+    border-radius:2px;
+    color:var(--bone);
+    text-decoration:none;
+    font-size:13.5px;
+    letter-spacing:.04em;
+    background:rgba(255,42,30,.03);
+    transition:color .25s ease,border-color .25s ease,box-shadow .25s ease,text-shadow .25s ease,background .25s ease;
+  }
+  .cta a:hover,
+  .cta a:focus-visible{
+    color:#fff;
+    border-color:var(--glow);
+    background:rgba(255,42,30,.07);
+    box-shadow:0 0 0 1px var(--glow), 0 0 28px rgba(255,42,30,.34);
+    text-shadow:0 0 14px rgba(255,42,30,.6);
+  }
+
+  /* ---------- FOOTER ---------- */
+  .footer{
+    text-align:center;
+    color:var(--faint);
+    font-size:11px;
+    line-height:1.85;
+    letter-spacing:.02em;
+    padding:34px 0 64px;
+  }
+  .footer .tm{color:var(--dim)}
+
+  /* ---------- ANIMATIONS ---------- */
+  /* one-time power-on */
+  @keyframes boot{
+    0%{opacity:0}
+    8%{opacity:.55} 10%{opacity:0}
+    18%{opacity:.32} 22%{opacity:0}
+    34%{opacity:1} 37%{opacity:.18}
+    44%{opacity:1} 48%{opacity:.5}
+    56%,100%{opacity:1}
+  }
+  /* steady irregular flicker (the buzz) */
+  @keyframes flicker{
+    0%,18%,20.4%,22%,57%,59%,82%,100%{opacity:1}
+    20%{opacity:.42}
+    21%{opacity:.86}
+    58%{opacity:.62}
+    83%{opacity:.34}
+    84%{opacity:.78}
+  }
+  @keyframes pulseHalo{0%,100%{opacity:.46}50%{opacity:.72}}
+  @keyframes pulseAmb{0%,100%{opacity:.5}50%{opacity:.88}}
+  /* individual letters that titilan, out of sync */
+  @keyframes flickT{
+    0%,5%,7%,49%,51.5%,73%,75%,100%{opacity:1}
+    6%{opacity:.16}
+    50%{opacity:.4}
+    74%{opacity:.12}
+  }
+  @keyframes flickY{
+    0%,29%,32%,59%,62.5%,100%{opacity:1}
+    30.5%{opacity:.22}
+    61%{opacity:.08}
+  }
+
+  .sign{animation:boot 1.8s ease-out both, flicker 8s 1.8s infinite}
+  .halo{animation:pulseHalo 4.6s ease-in-out infinite}
+  .ambient{animation:pulseAmb 4.6s ease-in-out infinite}
+  .f1{animation:flickT 5.6s 2s infinite}
+  .f2{animation:flickY 6.8s 2.5s infinite}
+
+  @media (prefers-reduced-motion: reduce){
+    .sign,.halo,.ambient,.f1,.f2{animation:none !important}
+    .sign{opacity:1}
+    .halo{opacity:.56}
+    .ambient{opacity:.82}
+    .f1,.f2{opacity:1}
+    *{transition:none !important}
+  }
+
+  /* ---------- UP-SCALE ---------- */
+  @media (min-width:600px){
+    body{font-size:16px}
+    .neon text{font-size:64px}
+    h1.section-title{font-size:21px}
+    .name{font-size:17px}
+    .dish{grid-template-columns:3px 1fr 56px;column-gap:18px;padding:20px 2px}
+    .thumb{width:56px;height:76px}
+  }
+</style>
+</head>
+
+<body>
+
+  <header class="hero">
+    <div class="wrap">
+      <div class="neon-stage">
+        <!-- HAND-MADE ANIMATED NEON SIGN -->
+        <svg id="neon" class="neon" viewBox="0 0 600 210" role="img" aria-label="ghosttacoboy" preserveAspectRatio="xMidYMid meet">
+          <title>ghosttacoboy</title>
+          <defs>
+            <radialGradient id="ambient" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"  stop-color="#FF2A1E" stop-opacity=".38"/>
+              <stop offset="65%" stop-color="#FF2A1E" stop-opacity="0"/>
+            </radialGradient>
+
+            <filter id="fHalo" x="-30%" y="-90%" width="160%" height="280%">
+              <feGaussianBlur stdDeviation="7">
+                <animate attributeName="stdDeviation"
+                         values="6.4;8.6;7;9.2;6.6"
+                         dur="3.7s" repeatCount="indefinite"/>
+              </feGaussianBlur>
+            </filter>
+
+            <filter id="fMid" x="-25%" y="-70%" width="150%" height="240%">
+              <feGaussianBlur stdDeviation="2.4"/>
+            </filter>
+
+            <filter id="fTube" x="-15%" y="-40%" width="130%" height="180%">
+              <feGaussianBlur stdDeviation=".8" result="b"/>
+              <feMerge>
+                <feMergeNode in="b"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <g class="sign">
+            <ellipse class="ambient" cx="300" cy="108" rx="270" ry="74" fill="url(#ambient)"/>
+
+            <text class="halo" filter="url(#fHalo)" x="300" y="128" text-anchor="middle"
+              >ghost<tspan class="f1">t</tspan>acobo<tspan class="f2">y</tspan></text>
+
+            <text class="mid" filter="url(#fMid)" x="300" y="128" text-anchor="middle"
+              >ghost<tspan class="f1">t</tspan>acobo<tspan class="f2">y</tspan></text>
+
+            <text class="tube" filter="url(#fTube)" x="300" y="128" text-anchor="middle"
+              >ghost<tspan class="f1">t</tspan>acobo<tspan class="f2">y</tspan></text>
+          </g>
+        </svg>
+      </div>
+
+      <p class="tagline">city lights<span class="pipe">/</span>empty heart.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="menu-section" aria-labelledby="titulo">
+      <div class="wrap">
+        <p class="eyebrow">menú · panamá · de noche</p>
+        <h1 id="titulo" class="section-title">qué puedes hacer conmigo</h1>
+        <p class="menu-note">// los números no son precios. son horas.</p>
+
+        <ul class="menu">
+
+          <li class="dish">
+            <span class="tick" aria-hidden="true"></span>
+            <div class="body">
+              <div class="name-row"><span class="name">vuelta sin rumbo</span><span class="time">23:00</span></div>
+              <p class="desc">el carro, la ciudad, ningún destino. no hablamos de eso.</p>
+            </div>
+            <img class="thumb" src="../img/drive.jpg" alt="carretera nocturna vista desde el carro" loading="lazy" width="56" height="76">
+          </li>
+
+          <li class="dish">
+            <span class="tick" aria-hidden="true"></span>
+            <div class="body">
+              <div class="name-row"><span class="name">sos la musa</span><span class="time">∞</span></div>
+              <p class="desc">vos al frente del lente. yo atrás, que es donde me siento seguro.</p>
+            </div>
+            <img class="thumb" src="../img/room.jpg" alt="cuarto oscuro con tv de tubo en estática y cojines de rosas" loading="lazy" width="56" height="76">
+          </li>
+
+          <li class="dish">
+            <span class="tick" aria-hidden="true"></span>
+            <div class="body">
+              <div class="name-row"><span class="name">luces rojas</span><span class="time">02:00</span></div>
+              <p class="desc">te llevo a donde el bajo no deja pensar. toque, disco, lo que caiga.</p>
+            </div>
+            <img class="thumb" src="../img/club.jpg" alt="concierto en luz roja, multitud y camcorder" loading="lazy" width="56" height="76">
+          </li>
+
+          <li class="dish">
+            <span class="tick" aria-hidden="true"></span>
+            <div class="body">
+              <div class="name-row"><span class="name">caja cerrada</span><span class="time">—</span></div>
+              <p class="desc">te explico por qué le tomo foto a un letrero de súper. nadie más entiende esto.</p>
+            </div>
+            <img class="thumb" src="../img/caja.jpg" alt="letrero rojo de supermercado que dice caja cerrada" loading="lazy" width="56" height="76">
+          </li>
+
+          <li class="dish">
+            <span class="tick" aria-hidden="true"></span>
+            <div class="body">
+              <div class="name-row"><span class="name">drive a las 3am</span><span class="time">03:00</span></div>
+              <p class="desc">ventana abajo, la luna nos sigue. one day i'll replay this.</p>
+            </div>
+            <img class="thumb" src="../img/moon.jpg" alt="luna llena entre ramas" loading="lazy" width="56" height="76">
+          </li>
+
+          <li class="dish">
+            <span class="tick" aria-hidden="true"></span>
+            <div class="body">
+              <div class="name-row"><span class="name">misión antojo</span><span class="time">01:30</span></div>
+              <p class="desc">mcdonald's, gasolinera, una lata de monster. cero glamour, máxima data.</p>
+            </div>
+            <img class="thumb" src="../img/highway.jpg" alt="autopista nublada y melancólica vista desde el carro" loading="lazy" width="56" height="76">
+          </li>
+
+          <li class="dish">
+            <span class="tick" aria-hidden="true"></span>
+            <div class="body">
+              <div class="name-row"><span class="name">nada</span><span class="time">siempre</span></div>
+              <p class="desc">callados, viendo la bahía. es mi especialidad.</p>
+            </div>
+            <span class="thumb empty" aria-hidden="true">∅</span>
+          </li>
+
+        </ul>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="wrap">
+        <a href="https://instagram.com/ghosttacoboy" target="_blank" rel="noopener noreferrer">si llegaste hasta acá, escríbeme</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span class="tm">el man solitario™</span> · resultados no garantizados · no tengo amigos (mentira, tengo uno)
+    </div>
+  </footer>
+
+  <script>
+    /* Respeta prefers-reduced-motion también para las animaciones SMIL del SVG */
+    (function(){
+      var svg = document.getElementById('neon');
+      if(!svg || typeof svg.pauseAnimations !== 'function') return;
+      var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      function apply(){
+        try{
+          if(mq.matches){ svg.setCurrentTime(0); svg.pauseAnimations(); }
+          else { svg.unpauseAnimations(); }
+        }catch(e){}
+      }
+      if(mq.addEventListener) mq.addEventListener('change', apply);
+      else if(mq.addListener) mq.addListener(apply);
+      apply();
+    })();
+  </script>
+
+</body>
+</html>

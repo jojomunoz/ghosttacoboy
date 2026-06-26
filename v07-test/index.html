@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>qué puedes hacer conmigo — ghosttacoboy</title>
+<meta name="description" content="caja cerrada: el test. 4 preguntas y te digo qué podemos hacer. casi nadie la abre.">
+<meta name="theme-color" content="#0A0A0C">
+
+<!-- OG -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="qué puedes hacer conmigo">
+<meta property="og:description" content="caja cerrada: el test. 4 preguntas. al final te digo qué podemos hacer.">
+<meta property="og:image" content="../img/caja.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --void:#0A0A0C;
+    --void-2:#0D0D10;
+    --bone:#ECE8E1;
+    --ash:rgba(236,232,225,.52);
+    --ash-2:rgba(236,232,225,.30);
+    --line:rgba(236,232,225,.13);
+    --blood:#E11221;
+    --glow:#FF2A1E;
+    --r:2px;
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--void);
+    color:var(--bone);
+    font-family:"Space Mono",ui-monospace,Menlo,Consolas,monospace;
+    font-size:16px;
+    line-height:1.55;
+    min-height:100svh;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* faint photographic grain */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* soft vignette */
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background:radial-gradient(120% 85% at 50% 0%,transparent 55%,rgba(0,0,0,.55) 100%);
+  }
+
+  ::selection{background:var(--blood);color:var(--bone)}
+
+  /* focus */
+  a:focus-visible,button:focus-visible,.opt:focus-visible{
+    outline:2px solid var(--glow);
+    outline-offset:3px;
+  }
+
+  .wrap{
+    position:relative;
+    z-index:1;
+    width:100%;
+    max-width:480px;
+    margin:0 auto;
+    padding:18px 22px;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ---- top bar ---- */
+  .top{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:12px;
+  }
+  .top__brand{
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:.04em;
+  }
+  .top__brand b{color:var(--blood)}
+  .top__status{
+    font-size:10px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--ash);
+    white-space:nowrap;
+  }
+
+  /* ---- stage ---- */
+  .stage{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:26px 0;
+    min-height:0;
+  }
+  .screen{display:none}
+  .screen.is-on{display:block}
+
+  /* card entrance */
+  .card{will-change:transform,opacity}
+  .enter{animation:slideIn .42s var(--ease) both}
+  .enter-back{animation:slideInBack .42s var(--ease) both}
+  @keyframes slideIn{
+    from{opacity:0;transform:translate3d(26px,0,0)}
+    to{opacity:1;transform:none}
+  }
+  @keyframes slideInBack{
+    from{opacity:0;transform:translate3d(-26px,0,0)}
+    to{opacity:1;transform:none}
+  }
+  @keyframes riseIn{
+    from{opacity:0;transform:translate3d(0,18px,0)}
+    to{opacity:1;transform:none}
+  }
+
+  .kicker{
+    font-size:10px;
+    letter-spacing:.30em;
+    text-transform:uppercase;
+    color:var(--ash);
+  }
+
+  /* ===== INTRO: el letrero ===== */
+  .intro__head{
+    font-size:clamp(26px,8.5vw,34px);
+    line-height:1.08;
+    font-weight:700;
+    letter-spacing:-.01em;
+    margin:14px 0 16px;
+  }
+  .intro__head em{font-style:normal;color:var(--blood)}
+
+  .box{
+    position:relative;
+    display:block;
+    width:100%;
+    border:0;
+    padding:0;
+    background:#000;
+    cursor:pointer;
+    overflow:hidden;
+    border-radius:var(--r);
+    aspect-ratio:4/3;
+    text-align:center;
+    color:var(--bone);
+    font-family:inherit;
+  }
+  .box__img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:brightness(.30) grayscale(.25) contrast(1.05);
+    transition:filter .5s var(--ease),transform .8s var(--ease);
+  }
+  .box:hover .box__img,.box:focus-visible .box__img{filter:brightness(.42) grayscale(.1);transform:scale(1.04)}
+  .box__glow{
+    position:absolute;inset:0;
+    background:radial-gradient(70% 60% at 50% 48%,rgba(225,18,33,.30),transparent 70%);
+    mix-blend-mode:screen;
+  }
+  .sign{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:18px;
+  }
+  .sign__panel{
+    background:var(--blood);
+    color:var(--bone);
+    padding:14px 20px 12px;
+    border-radius:var(--r);
+    box-shadow:0 0 0 1px rgba(255,255,255,.12) inset, 0 18px 50px rgba(225,18,33,.30);
+    animation:signFlicker 6s steps(1) infinite;
+  }
+  @keyframes signFlicker{
+    0%,96%,100%{opacity:1}
+    97%{opacity:.55}
+    98%{opacity:1}
+    99%{opacity:.7}
+  }
+  .sign__lead{
+    display:block;
+    font-size:9px;
+    letter-spacing:.42em;
+    opacity:.8;
+    margin-bottom:4px;
+  }
+  .sign__main{
+    display:block;
+    font-weight:700;
+    font-size:clamp(26px,9vw,40px);
+    line-height:.96;
+    letter-spacing:.04em;
+  }
+  .sign__bars{
+    display:block;
+    margin-top:8px;
+    font-size:13px;
+    letter-spacing:-.06em;
+    opacity:.85;
+  }
+  .box__hint{
+    position:absolute;
+    left:0;right:0;bottom:14px;
+    font-size:11px;
+    letter-spacing:.20em;
+    text-transform:uppercase;
+    color:var(--bone);
+  }
+  .box__hint .dot{color:var(--glow);animation:blink 1.4s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  .intro__note{
+    color:var(--ash);
+    font-size:13px;
+    line-height:1.6;
+    margin:18px 0 22px;
+  }
+  .intro__note b{color:var(--bone);font-weight:400}
+
+  /* ===== big buttons ===== */
+  .btn{
+    -webkit-appearance:none;
+    appearance:none;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    width:100%;
+    min-height:58px;
+    padding:16px 18px;
+    background:var(--bone);
+    color:var(--void);
+    border:1px solid var(--bone);
+    border-radius:var(--r);
+    font-family:inherit;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:.01em;
+    cursor:pointer;
+    text-decoration:none;
+    transition:transform .15s var(--ease),background .2s var(--ease),color .2s var(--ease);
+  }
+  .btn .arw{font-weight:700}
+  .btn:hover{background:var(--blood);color:var(--bone);border-color:var(--blood)}
+  .btn:active{transform:translateY(1px) scale(.995)}
+
+  .btn--ghost{
+    background:transparent;
+    color:var(--bone);
+    border:1px solid var(--line);
+    font-weight:400;
+    min-height:50px;
+    font-size:13px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    justify-content:center;
+  }
+  .btn--ghost:hover{border-color:var(--bone);background:transparent;color:var(--bone)}
+
+  /* ===== QUIZ ===== */
+  .prog{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:30px;
+  }
+  .prog__track{
+    flex:1;
+    height:2px;
+    background:var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .prog__fill{
+    position:absolute;
+    left:0;top:0;bottom:0;
+    width:100%;
+    background:var(--blood);
+    transform:scaleX(0);
+    transform-origin:left center;
+    transition:transform .5s var(--ease);
+  }
+  .prog__meta{
+    font-size:11px;
+    letter-spacing:.18em;
+    color:var(--ash);
+    white-space:nowrap;
+  }
+  .prog__meta b{color:var(--bone)}
+
+  .qback{
+    background:none;
+    border:0;
+    color:var(--ash);
+    font-family:inherit;
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    cursor:pointer;
+    padding:6px 0;
+    margin-bottom:14px;
+    min-height:32px;
+  }
+  .qback:hover{color:var(--bone)}
+  .qback[hidden]{display:none}
+
+  .q__num{
+    font-size:11px;
+    letter-spacing:.30em;
+    color:var(--blood);
+    text-transform:uppercase;
+  }
+  .q__text{
+    font-size:clamp(23px,7.5vw,30px);
+    line-height:1.14;
+    font-weight:700;
+    letter-spacing:-.01em;
+    margin:10px 0 26px;
+  }
+
+  .opts{display:flex;flex-direction:column;gap:11px}
+  .opt{
+    -webkit-appearance:none;appearance:none;
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+    width:100%;
+    min-height:60px;
+    text-align:left;
+    padding:16px 16px;
+    background:var(--void-2);
+    color:var(--bone);
+    border:1px solid var(--line);
+    border-radius:var(--r);
+    font-family:inherit;
+    font-size:14.5px;
+    line-height:1.4;
+    cursor:pointer;
+    transition:border-color .18s var(--ease),background .18s var(--ease),transform .12s var(--ease),color .18s var(--ease);
+  }
+  .opt__k{
+    color:var(--ash-2);
+    font-weight:700;
+    transition:color .18s var(--ease);
+    line-height:1.4;
+  }
+  .opt:hover,.opt.is-picked{
+    border-color:var(--blood);
+    background:#121013;
+  }
+  .opt:hover .opt__k,.opt.is-picked .opt__k{color:var(--blood)}
+  .opt:active{transform:translateY(1px)}
+
+  /* ===== RESULT ===== */
+  .res__kick{display:flex;align-items:center;gap:10px}
+  .res__kick .ln{flex:1;height:1px;background:var(--line)}
+  .res__name{
+    font-size:clamp(30px,10vw,44px);
+    line-height:1.02;
+    font-weight:700;
+    letter-spacing:-.02em;
+    margin:12px 0 4px;
+  }
+  .res__name em{font-style:normal;color:var(--blood)}
+  .res__price{
+    font-size:12px;
+    letter-spacing:.22em;
+    color:var(--ash);
+    text-transform:uppercase;
+    margin-bottom:18px;
+  }
+  .res__price b{color:var(--bone)}
+
+  .frame{
+    position:relative;
+    width:100%;
+    aspect-ratio:3/4;
+    background:#000;
+    border:1px solid var(--line);
+    border-radius:var(--r);
+    overflow:hidden;
+    margin-bottom:18px;
+  }
+  .frame img{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+    filter:grayscale(.18) contrast(1.04) brightness(.92);
+  }
+  .frame__empty{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;
+    padding:24px;
+    color:var(--ash);
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    background:
+      radial-gradient(60% 40% at 50% 50%,rgba(225,18,33,.10),transparent 70%),
+      repeating-linear-gradient(0deg,#0b0b0d 0 2px,#101013 2px 4px);
+  }
+  .frame__tag{
+    position:absolute;
+    left:10px;bottom:10px;
+    background:var(--void);
+    border:1px solid var(--line);
+    color:var(--bone);
+    font-size:11px;
+    letter-spacing:.10em;
+    padding:5px 9px;
+    border-radius:var(--r);
+  }
+  .frame__tag b{color:var(--blood)}
+
+  .res__line{
+    font-size:15px;
+    line-height:1.55;
+    color:var(--bone);
+    margin-bottom:14px;
+  }
+  .res__diag{
+    border-left:2px solid var(--blood);
+    padding:8px 0 8px 14px;
+    color:var(--ash);
+    font-size:13.5px;
+    line-height:1.55;
+    margin-bottom:26px;
+  }
+  .res__diag b{color:var(--bone);font-weight:400}
+
+  .res__actions{display:flex;flex-direction:column;gap:11px}
+
+  /* ---- footer ---- */
+  .foot{
+    position:relative;
+    z-index:1;
+    border-top:1px solid var(--line);
+    margin-top:18px;
+    padding-top:14px;
+    color:var(--ash-2);
+    font-size:10.5px;
+    line-height:1.7;
+    letter-spacing:.02em;
+  }
+
+  @media (min-width:430px){
+    .wrap{padding:24px 28px}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important}
+    .prog__fill{transition:none !important}
+    .box:hover .box__img{transform:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="top__brand"><b>·</b> ghosttacoboy</div>
+    <div class="top__status" id="topStatus">caja · cerrada</div>
+  </header>
+
+  <main class="stage" id="stage">
+
+    <!-- ===================== INTRO ===================== -->
+    <section class="screen is-on" id="screen-intro" aria-label="inicio">
+      <div class="card">
+        <p class="kicker">el test · v07</p>
+        <h1 class="intro__head">qué puedes <em>hacer</em><br>conmigo</h1>
+
+        <button class="box" id="openBox" aria-label="abrir la caja y empezar el test">
+          <img class="box__img" src="../img/caja.jpg" alt="" loading="lazy" decoding="async" width="800" height="600">
+          <span class="box__glow" aria-hidden="true"></span>
+          <span class="sign" aria-hidden="true">
+            <span class="sign__panel">
+              <span class="sign__lead">supermercado</span>
+              <span class="sign__main">CAJA<br>CERRADA</span>
+              <span class="sign__bars">▮▮ ▮ ▮▮▮ ▌ ▮▮ ▌▮</span>
+            </span>
+          </span>
+          <span class="box__hint">tocá para abrir <span class="dot">▮</span></span>
+        </button>
+
+        <p class="intro__note">
+          casi nadie le toma foto a este letrero. yo sí.<br>
+          <b>4 preguntas. una a la vez.</b> al final te digo qué podemos hacer.
+          tranqui, nadie está viendo (yo tampoco, estoy atrás del lente).
+        </p>
+
+        <button class="btn" id="startBtn">
+          abrir la caja <span class="arw">→</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================== QUIZ ===================== -->
+    <section class="screen" id="screen-quiz" aria-label="preguntas">
+      <div class="prog" aria-hidden="true">
+        <div class="prog__track"><div class="prog__fill" id="progFill"></div></div>
+        <div class="prog__meta"><b id="qIndex">01</b> / 04</div>
+      </div>
+      <div class="card" id="qcard" aria-live="polite"></div>
+    </section>
+
+    <!-- ===================== RESULT ===================== -->
+    <section class="screen" id="screen-result" aria-label="veredicto">
+      <div class="card" id="rcard"></div>
+    </section>
+
+  </main>
+
+  <footer class="foot" id="foot">
+    el man solitario™ · resultados no garantizados · no tengo amigos (mentira, tengo uno)
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- PLANES (veredictos) ---------- */
+  var PLANS = {
+    vuelta:{ n:"vuelta sin rumbo", line:"el carro, la ciudad, ningún destino. no hablamos de eso.", price:"23:00", img:"drive",
+      diag:"no querés llegar a ningún lado. perfecto. yo tampoco sé cómo." },
+    musa:{ n:"sos la musa", line:"vos al frente del lente. yo atrás, que es donde me siento seguro.", price:"∞", img:"room",
+      diag:"te gusta que te miren, pero no mirar de vuelta. yo soy al revés. encaja raro." },
+    luces:{ n:"luces rojas", line:"te llevo a donde el bajo no deja pensar. toque, disco, lo que caiga.", price:"02:00", img:"club",
+      diag:"pensás demasiado. te llevo a un sitio donde no se puede, por el volumen." },
+    caja:{ n:"caja cerrada", line:"te explico por qué le tomo foto a un letrero de súper. nadie más entiende esto.", price:"—", img:"caja",
+      diag:"vos también le hubieras tomado la foto. eso me asusta un poco. sigamos." },
+    drive:{ n:"drive a las 3am", line:"ventana abajo, la luna nos sigue. one day i'll replay this.", price:"03:00", img:"moon",
+      diag:"sos de las que graba la luna 'para después'. yo también. el después nunca llega." },
+    mision:{ n:"misión antojo", line:"mcdonald's, gasolinera, una lata de monster. cero glamour, máxima data.", price:"01:30", img:"highway",
+      diag:"romantizás una gasolinera a la 1am. respeto eso más de lo que debería." },
+    nada:{ n:"nada", line:"callados, viendo la bahía. es mi especialidad.", price:"siempre", img:"",
+      diag:"no necesitás nada. casualmente, eso es lo único que ofrezco bien." }
+  };
+
+  /* empate: si hay varios máximos, gana el primero de esta lista */
+  var TIE = ["caja","nada","musa","drive","mision","luces","vuelta"];
+
+  /* ---------- PREGUNTAS ---------- */
+  var QUESTIONS = [
+    { q:"¿a qué hora salís?", opts:[
+      { t:"antes de las 11. soy una persona de bien (mentira).", s:{vuelta:2} },
+      { t:"tipo 2am, cuando la ciudad ya bajó el volumen.",       s:{luces:2, drive:1} },
+      { t:"no salgo. afuera hay gente.",                           s:{nada:2, caja:1} }
+    ]},
+    { q:"¿qué te ponés?", opts:[
+      { t:"negro sobre negro sobre negro.",                        s:{caja:2} },
+      { t:"algo con rojo, mínimo. es disciplina.",                 s:{luces:2, musa:1} },
+      { t:"lo primero que estaba en el piso.",                     s:{mision:2} }
+    ]},
+    { q:"¿te asusta el silencio?", opts:[
+      { t:"sí. por eso siempre hay un bajo de fondo.",             s:{luces:2} },
+      { t:"no. es lo único que no me miente.",                     s:{nada:2, drive:1} },
+      { t:"depende de quién se quede callado conmigo.",            s:{musa:2} }
+    ]},
+    { q:"¿qué tomás?", opts:[
+      { t:"monster. no es glamour, es data.",                      s:{mision:2} },
+      { t:"nada, ando manejando.",                                 s:{drive:2, vuelta:1} },
+      { t:"lo que apague el ruido de la cabeza.",                  s:{caja:2} }
+    ]}
+  ];
+
+  /* ---------- ESTADO ---------- */
+  var idx = 0;
+  var answers = [];                 // índice de opción por pregunta
+  var TOTAL = QUESTIONS.length;
+  var prefersReduced = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- DOM ---------- */
+  var $ = function(id){ return document.getElementById(id); };
+  var scIntro = $("screen-intro"),
+      scQuiz  = $("screen-quiz"),
+      scResult= $("screen-result"),
+      qcard   = $("qcard"),
+      rcard   = $("rcard"),
+      progFill= $("progFill"),
+      qIndex  = $("qIndex"),
+      topStatus = $("topStatus");
+
+  function show(el){
+    [scIntro,scQuiz,scResult].forEach(function(s){ s.classList.remove("is-on"); });
+    el.classList.add("is-on");
+  }
+
+  function animate(el, cls){
+    if(prefersReduced) return;
+    el.classList.remove("enter","enter-back");
+    void el.offsetWidth;                // reflow -> reinicia animación
+    el.classList.add(cls);
+  }
+
+  function pad(n){ return n < 10 ? "0"+n : ""+n; }
+
+  /* ---------- FLUJO ---------- */
+  function start(){
+    idx = 0;
+    answers = [];
+    show(scQuiz);
+    topStatus.textContent = "abriendo…";
+    renderQuestion("enter");
+    window.scrollTo(0,0);
+  }
+
+  function renderQuestion(dir){
+    var Q = QUESTIONS[idx];
+    var ratio = idx / TOTAL;                         // crece a medida que avanza
+    progFill.style.transform = "scaleX(" + ratio + ")";
+    qIndex.textContent = pad(idx+1);
+
+    var letters = ["a","b","c","d"];
+    var html = "";
+    html += '<button class="qback" id="qback"'+(idx===0?" hidden":"")+'>← atrás</button>';
+    html += '<p class="q__num">pregunta '+pad(idx+1)+' / '+pad(TOTAL)+'</p>';
+    html += '<h2 class="q__text">'+Q.q+'</h2>';
+    html += '<div class="opts">';
+    Q.opts.forEach(function(o,i){
+      var picked = answers[idx] === i ? " is-picked" : "";
+      html += '<button class="opt'+picked+'" data-i="'+i+'">'+
+                '<span class="opt__k" aria-hidden="true">'+letters[i]+'</span>'+
+                '<span class="opt__t">'+o.t+'</span>'+
+              '</button>';
+    });
+    html += '</div>';
+    qcard.innerHTML = html;
+    animate(qcard, dir === "back" ? "enter-back" : "enter");
+
+    // listeners
+    var back = $("qback");
+    if(back) back.addEventListener("click", goBack);
+    var opts = qcard.querySelectorAll(".opt");
+    opts.forEach(function(b){
+      b.addEventListener("click", function(){ pick(parseInt(b.getAttribute("data-i"),10)); });
+    });
+    // foco para teclado
+    var focusTarget = qcard.querySelector(".opt");
+    if(focusTarget) focusTarget.focus({preventScroll:true});
+  }
+
+  function pick(i){
+    answers[idx] = i;
+    if(idx < TOTAL - 1){
+      idx++;
+      renderQuestion("enter");
+    } else {
+      finish();
+    }
+  }
+
+  function goBack(){
+    if(idx === 0) return;
+    idx--;
+    renderQuestion("back");
+  }
+
+  function tally(){
+    var score = {};
+    Object.keys(PLANS).forEach(function(k){ score[k]=0; });
+    answers.forEach(function(opt, qi){
+      var s = QUESTIONS[qi].opts[opt].s;
+      for(var k in s){ score[k] += s[k]; }
+    });
+    var max = -1;
+    Object.keys(score).forEach(function(k){ if(score[k]>max) max=score[k]; });
+    var winners = TIE.filter(function(k){ return score[k]===max; });
+    return winners[0];
+  }
+
+  function finish(){
+    progFill.style.transform = "scaleX(1)";
+    var key = tally();
+    var p = PLANS[key];
+    topStatus.textContent = "caja · abierta";
+
+    var imgHTML;
+    if(p.img){
+      imgHTML = '<img src="../img/'+p.img+'.jpg" alt="'+p.n+'" loading="lazy" decoding="async" width="600" height="800">';
+    } else {
+      imgHTML = '<div class="frame__empty">[ sin foto.<br>solo la bahía<br>y el silencio. ]</div>';
+    }
+
+    var html = "";
+    html += '<div class="res__kick"><span class="kicker">veredicto</span><span class="ln"></span></div>';
+    html += '<h2 class="res__name"><em>'+p.n+'</em></h2>';
+    html += '<p class="res__price">precio · <b>'+p.price+'</b></p>';
+    html += '<div class="frame">'+imgHTML+
+              '<span class="frame__tag"><b>·</b> '+p.price+'</span>'+
+            '</div>';
+    html += '<p class="res__line">'+p.line+'</p>';
+    html += '<div class="res__diag"><b>diagnóstico:</b> '+p.diag+'</div>';
+    html += '<div class="res__actions">';
+    html += '<a class="btn" href="https://instagram.com/ghosttacoboy" target="_blank" rel="noopener noreferrer">si llegaste hasta acá, escríbeme <span class="arw">→</span></a>';
+    html += '<button class="btn--ghost" id="resetBtn">cerrar la caja otra vez ↺</button>';
+    html += '</div>';
+
+    rcard.innerHTML = html;
+    show(scResult);
+    animate(rcard, "enter");
+    $("resetBtn").addEventListener("click", reset);
+    window.scrollTo(0,0);
+  }
+
+  function reset(){
+    idx = 0;
+    answers = [];
+    topStatus.textContent = "caja · cerrada";
+    show(scIntro);
+    var c = scIntro.querySelector(".card");
+    animate(c, "enter");
+    window.scrollTo(0,0);
+  }
+
+  /* ---------- BIND ---------- */
+  $("startBtn").addEventListener("click", start);
+  $("openBox").addEventListener("click", start);
+
+})();
+</script>
+</body>
+</html>

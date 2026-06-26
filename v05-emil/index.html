@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>ghosttacoboy — qué puedes hacer conmigo</title>
+<meta name="description" content="El menú nocturno de ghosttacoboy. Siete cosas que puedes hacer conmigo. Tocá una." />
+<meta name="theme-color" content="#0A0A0C" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="qué puedes hacer conmigo" />
+<meta property="og:description" content="city lights, empty heart." />
+<meta property="og:image" content="../img/caja.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="qué puedes hacer conmigo" />
+<meta name="twitter:description" content="city lights, empty heart." />
+<meta name="twitter:image" content="../img/caja.jpg" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    /* paleta */
+    --void:#0A0A0C;
+    --surface:#0E0E12;
+    --line:#1B1B22;
+    --line-2:#26262f;
+    --bone:#ECE8E1;
+    --mute:#84848f;
+    --faint:#54545e;
+    --blood:#E11221;
+    --glow:#FF2A1E;
+
+    /* curvas (de la filosofía emil) */
+    --ease-out:cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-drawer:cubic-bezier(0.32, 0.72, 0, 1);
+    --spring:cubic-bezier(0.16, 1, 0.3, 1);
+
+    --w:440px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{-webkit-text-size-adjust:100%}
+
+  body{
+    background:var(--void);
+    color:var(--bone);
+    font-family:"Schibsted Grotesk", system-ui, sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    min-height:100dvh;
+    padding:
+      max(26px, env(safe-area-inset-top))
+      clamp(20px, 6vw, 28px)
+      calc(40px + env(safe-area-inset-bottom));
+    max-width:calc(var(--w) + 56px);
+    margin:0 auto;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  ::selection{background:var(--blood); color:var(--bone)}
+
+  /* glow rojo que respira, muy sutil, detrás de todo */
+  .ambient{
+    position:fixed;
+    top:-160px; left:50%;
+    width:130vw; max-width:760px; height:420px;
+    transform:translateX(-50%);
+    background:radial-gradient(50% 60% at 50% 40%, rgba(225,18,33,.20), rgba(225,18,33,0) 70%);
+    filter:blur(36px);
+    pointer-events:none;
+    z-index:0;
+    animation:breathe 7.5s ease-in-out infinite;
+  }
+  @keyframes breathe{
+    0%,100%{opacity:.38}
+    50%{opacity:.85}
+  }
+
+  /* grano fino */
+  body::after{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none; z-index:60; opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrap{position:relative; z-index:1; max-width:var(--w); margin:0 auto}
+
+  /* ---------- masthead ---------- */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:34px;
+  }
+  .brand{
+    font-family:"JetBrains Mono", monospace;
+    font-size:12px; letter-spacing:.04em;
+    color:var(--bone);
+  }
+  .status{
+    display:inline-flex; align-items:center; gap:7px;
+    font-family:"JetBrains Mono", monospace;
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--mute);
+  }
+  .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--glow);
+    box-shadow:0 0 10px rgba(255,42,30,.9);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:.45; transform:scale(.82)}
+    50%{opacity:1; transform:scale(1)}
+  }
+
+  .title{
+    font-weight:600;
+    font-size:clamp(2.5rem, 12.5vw, 3.5rem);
+    line-height:.97;
+    letter-spacing:-.038em;
+    color:var(--bone);
+  }
+  .tagline{
+    margin-top:16px;
+    font-family:"JetBrains Mono", monospace;
+    font-size:13px; letter-spacing:.02em;
+    color:var(--mute);
+  }
+
+  .rule{
+    height:1px; background:var(--line);
+    margin:30px 0 6px;
+  }
+
+  /* ---------- menú ---------- */
+  .menu{list-style:none}
+
+  .item{
+    position:relative;
+    border-bottom:1px solid var(--line);
+  }
+
+  .row{
+    position:relative;
+    width:100%;
+    display:grid;
+    grid-template-columns:auto 1fr auto auto;
+    align-items:center;
+    column-gap:14px;
+    background:transparent;
+    border:0;
+    color:inherit;
+    text-align:left;
+    font:inherit;
+    cursor:pointer;
+    padding:20px 4px 20px 14px;
+    border-radius:6px;
+    transition:transform 160ms var(--ease-out);
+    -webkit-tap-highlight-color:transparent;
+  }
+  .row:active{transform:scale(.985)}
+
+  /* acento rojo del plato activo (único rojo por item, con disciplina) */
+  .row::before{
+    content:"";
+    position:absolute; left:0; top:50%;
+    width:2px; height:30px;
+    background:var(--blood);
+    border-radius:2px;
+    transform:translateY(-50%) scaleY(0);
+    transform-origin:center;
+    transition:transform 280ms var(--ease-out);
+  }
+  .item[data-open] .row::before{transform:translateY(-50%) scaleY(1)}
+
+  .num{
+    font-family:"JetBrains Mono", monospace;
+    font-variant-numeric:tabular-nums;
+    font-size:12px;
+    color:var(--faint);
+    transition:color 220ms var(--ease-out);
+  }
+  .item[data-open] .num{color:var(--bone)}
+
+  .name{
+    font-weight:500;
+    font-size:1.16rem;
+    letter-spacing:-.012em;
+    color:var(--bone);
+    transition:color 220ms var(--ease-out);
+  }
+
+  .price{
+    font-family:"JetBrains Mono", monospace;
+    font-variant-numeric:tabular-nums;
+    font-size:12px; letter-spacing:.04em;
+    color:var(--mute);
+  }
+
+  /* toggle + → × */
+  .toggle{
+    position:relative;
+    width:15px; height:15px;
+    margin-left:2px;
+    color:var(--mute);
+    transition:transform 280ms var(--ease-out), color 220ms var(--ease-out);
+  }
+  .toggle::before,
+  .toggle::after{
+    content:"";
+    position:absolute; left:50%; top:50%;
+    background:currentColor; border-radius:2px;
+  }
+  .toggle::before{width:13px; height:1.5px; transform:translate(-50%,-50%)}
+  .toggle::after{width:1.5px; height:13px; transform:translate(-50%,-50%)}
+  .item[data-open] .toggle{transform:rotate(135deg); color:var(--bone)}
+
+  /* panel: grid-rows para apertura con física agradable */
+  .panel{
+    display:grid;
+    grid-template-rows:0fr;
+    transition:grid-template-rows 460ms var(--ease-drawer);
+  }
+  .item[data-open] .panel{grid-template-rows:1fr}
+
+  .panel-clip{overflow:hidden; min-height:0}
+
+  .panel-body{
+    padding:2px 14px 26px;
+    opacity:0;
+    transform:translateY(8px);
+    transition:opacity 320ms ease, transform 380ms var(--ease-out);
+  }
+  .item[data-open] .panel-body{
+    opacity:1; transform:none;
+    transition-delay:110ms;
+  }
+
+  .line{
+    font-size:1.02rem;
+    line-height:1.55;
+    color:#bdbdc4;
+    max-width:34ch;
+  }
+
+  /* foto del plato */
+  .shot{
+    position:relative;
+    margin-top:18px;
+    border-radius:7px;
+    overflow:hidden;
+    border:1px solid var(--line-2);
+    opacity:0;
+    transform:scale(1.045);
+    filter:blur(8px);
+    transition:opacity 540ms ease, transform 660ms var(--ease-out), filter 540ms ease;
+  }
+  .item[data-open] .shot{
+    opacity:1; transform:none; filter:blur(0);
+    transition-delay:150ms;
+  }
+  .shot img{
+    display:block;
+    width:100%; height:auto;
+    aspect-ratio:4/5;
+    object-fit:cover;
+  }
+  .stamp{
+    position:absolute; left:10px; bottom:10px;
+    font-family:"JetBrains Mono", monospace;
+    font-size:10px; letter-spacing:.14em;
+    color:var(--bone);
+    background:rgba(10,10,12,.6);
+    border:1px solid rgba(236,232,225,.12);
+    padding:4px 8px; border-radius:4px;
+  }
+
+  /* el plato "nada": sin foto, a propósito */
+  .empty-note{
+    margin-top:16px;
+    font-family:"JetBrains Mono", monospace;
+    font-size:11px; letter-spacing:.04em;
+    color:var(--faint);
+  }
+
+  /* ---------- cta ---------- */
+  .cta{
+    margin-top:38px;
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:18px 20px;
+    border:1px solid var(--line-2);
+    border-radius:10px;
+    color:var(--bone);
+    text-decoration:none;
+    background:var(--surface);
+    transition:transform 160ms var(--ease-out), border-color 240ms var(--ease-out), background-color 240ms var(--ease-out);
+  }
+  .cta:active{transform:scale(.99)}
+  .cta-label{font-weight:500; font-size:1rem; letter-spacing:-.01em}
+  .cta-arrow{
+    font-size:1.1rem; color:var(--mute);
+    transition:transform 220ms var(--ease-out), color 240ms var(--ease-out);
+  }
+
+  /* ---------- footer ---------- */
+  .footer{
+    margin-top:30px;
+    font-family:"JetBrains Mono", monospace;
+    font-size:11px; line-height:1.8; letter-spacing:.02em;
+    color:var(--faint);
+  }
+
+  /* ---------- foco visible ---------- */
+  .row:focus-visible,
+  .cta:focus-visible{
+    outline:2px solid var(--glow);
+    outline-offset:3px;
+  }
+  :focus:not(:focus-visible){outline:none}
+
+  /* ---------- entrada en stagger (tipo spring) ---------- */
+  .anim{
+    opacity:0;
+    animation:rise 640ms var(--spring) both;
+  }
+  @keyframes rise{
+    from{opacity:0; transform:translateY(13px)}
+    to{opacity:1; transform:translateY(0)}
+  }
+  .topbar{animation-delay:40ms}
+  .title{animation-delay:120ms}
+  .tagline{animation-delay:210ms}
+  .rule{animation-delay:280ms}
+  .item{animation-delay:calc(330ms + var(--i) * 62ms)}
+  .cta{animation-delay:calc(330ms + 7 * 62ms)}
+
+  /* ---------- hover (solo punteros finos) ---------- */
+  @media (hover:hover) and (pointer:fine){
+    .row:hover .num{color:var(--mute)}
+    .row:hover .toggle{color:var(--bone)}
+    .cta:hover{border-color:var(--blood); background:#120d0e}
+    .cta:hover .cta-arrow{transform:translateX(5px); color:var(--bone)}
+  }
+
+  /* ---------- escalado a pantallas grandes ---------- */
+  @media (min-width:560px){
+    .title{font-size:3.6rem}
+    .row{padding:22px 6px 22px 16px}
+    .name{font-size:1.22rem}
+  }
+
+  /* ---------- reduce motion: todo estático ---------- */
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+      animation-duration:.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;
+      scroll-behavior:auto !important;
+    }
+    .anim{opacity:1 !important}
+    .ambient{opacity:.5 !important; animation:none !important}
+    .shot{filter:none !important; transform:none !important}
+  }
+</style>
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header>
+      <div class="topbar anim">
+        <span class="brand">ghosttacoboy</span>
+        <span class="status"><span class="dot" aria-hidden="true"></span>nocturno</span>
+      </div>
+      <h1 class="title anim">qué puedes<br>hacer conmigo</h1>
+      <p class="tagline anim">city lights, empty heart.</p>
+    </header>
+
+    <div class="rule anim" aria-hidden="true"></div>
+
+    <main>
+      <ol class="menu">
+
+        <li class="item anim" style="--i:0">
+          <button class="row" type="button" aria-expanded="false" aria-controls="p1">
+            <span class="num">01</span>
+            <span class="name">vuelta sin rumbo</span>
+            <span class="price">23:00</span>
+            <span class="toggle" aria-hidden="true"></span>
+          </button>
+          <div class="panel" id="p1" role="region" aria-label="vuelta sin rumbo">
+            <div class="panel-clip"><div class="panel-body">
+              <p class="line">el carro, la ciudad, ningún destino. no hablamos de eso.</p>
+              <figure class="shot">
+                <img src="../img/drive.jpg" loading="lazy" alt="Carretera nocturna vista desde adentro del carro." />
+                <figcaption class="stamp">23:00 · pma</figcaption>
+              </figure>
+            </div></div>
+          </div>
+        </li>
+
+        <li class="item anim" style="--i:1">
+          <button class="row" type="button" aria-expanded="false" aria-controls="p2">
+            <span class="num">02</span>
+            <span class="name">sos la musa</span>
+            <span class="price">∞</span>
+            <span class="toggle" aria-hidden="true"></span>
+          </button>
+          <div class="panel" id="p2" role="region" aria-label="sos la musa">
+            <div class="panel-clip"><div class="panel-body">
+              <p class="line">vos al frente del lente. yo atrás, que es donde me siento seguro.</p>
+              <figure class="shot">
+                <img src="../img/room.jpg" loading="lazy" alt="Cuarto oscuro con un televisor de tubo en estática y cojines de rosas." />
+                <figcaption class="stamp">∞ · pma</figcaption>
+              </figure>
+            </div></div>
+          </div>
+        </li>
+
+        <li class="item anim" style="--i:2">
+          <button class="row" type="button" aria-expanded="false" aria-controls="p3">
+            <span class="num">03</span>
+            <span class="name">luces rojas</span>
+            <span class="price">02:00</span>
+            <span class="toggle" aria-hidden="true"></span>
+          </button>
+          <div class="panel" id="p3" role="region" aria-label="luces rojas">
+            <div class="panel-clip"><div class="panel-body">
+              <p class="line">te llevo a donde el bajo no deja pensar. toque, disco, lo que caiga.</p>
+              <figure class="shot">
+                <img src="../img/club.jpg" loading="lazy" alt="Concierto en luz roja, una multitud y una camcorder grabando." />
+                <figcaption class="stamp">02:00 · pma</figcaption>
+              </figure>
+            </div></div>
+          </div>
+        </li>
+
+        <li class="item anim" style="--i:3">
+          <button class="row" type="button" aria-expanded="false" aria-controls="p4">
+            <span class="num">04</span>
+            <span class="name">caja cerrada</span>
+            <span class="price">—</span>
+            <span class="toggle" aria-hidden="true"></span>
+          </button>
+          <div class="panel" id="p4" role="region" aria-label="caja cerrada">
+            <div class="panel-clip"><div class="panel-body">
+              <p class="line">te explico por qué le tomo foto a un letrero de súper. nadie más entiende esto.</p>
+              <figure class="shot">
+                <img src="../img/caja.jpg" loading="lazy" alt="Letrero rojo de supermercado que dice CAJA CERRADA." />
+                <figcaption class="stamp">— · pma</figcaption>
+              </figure>
+            </div></div>
+          </div>
+        </li>
+
+        <li class="item anim" style="--i:4">
+          <button class="row" type="button" aria-expanded="false" aria-controls="p5">
+            <span class="num">05</span>
+            <span class="name">drive a las 3am</span>
+            <span class="price">03:00</span>
+            <span class="toggle" aria-hidden="true"></span>
+          </button>
+          <div class="panel" id="p5" role="region" aria-label="drive a las 3am">
+            <div class="panel-clip"><div class="panel-body">
+              <p class="line">ventana abajo, la luna nos sigue. one day i'll replay this.</p>
+              <figure class="shot">
+                <img src="../img/moon.jpg" loading="lazy" alt="Luna llena entre las ramas de los árboles." />
+                <figcaption class="stamp">03:00 · pma</figcaption>
+              </figure>
+            </div></div>
+          </div>
+        </li>
+
+        <li class="item anim" style="--i:5">
+          <button class="row" type="button" aria-expanded="false" aria-controls="p6">
+            <span class="num">06</span>
+            <span class="name">misión antojo</span>
+            <span class="price">01:30</span>
+            <span class="toggle" aria-hidden="true"></span>
+          </button>
+          <div class="panel" id="p6" role="region" aria-label="misión antojo">
+            <div class="panel-clip"><div class="panel-body">
+              <p class="line">mcdonald's, gasolinera, una lata de monster. cero glamour, máxima data.</p>
+              <figure class="shot">
+                <img src="../img/highway.jpg" loading="lazy" alt="Autopista nublada y melancólica vista desde el carro." />
+                <figcaption class="stamp">01:30 · pma</figcaption>
+              </figure>
+            </div></div>
+          </div>
+        </li>
+
+        <li class="item anim" style="--i:6">
+          <button class="row" type="button" aria-expanded="false" aria-controls="p7">
+            <span class="num">07</span>
+            <span class="name">nada</span>
+            <span class="price">siempre</span>
+            <span class="toggle" aria-hidden="true"></span>
+          </button>
+          <div class="panel" id="p7" role="region" aria-label="nada">
+            <div class="panel-clip"><div class="panel-body">
+              <p class="line">callados, viendo la bahía. es mi especialidad.</p>
+              <p class="empty-note">(no hay foto. ese es el punto.)</p>
+            </div></div>
+          </div>
+        </li>
+
+      </ol>
+    </main>
+
+    <a class="cta anim" href="https://instagram.com/ghosttacoboy" target="_blank" rel="noopener noreferrer">
+      <span class="cta-label">si llegaste hasta acá, escríbeme</span>
+      <span class="cta-arrow" aria-hidden="true">→</span>
+    </a>
+
+    <footer class="footer">
+      el man solitario™ · resultados no garantizados · no tengo amigos (mentira, tengo uno)
+    </footer>
+  </div>
+
+  <script>
+    (function(){
+      var rows = document.querySelectorAll('.row');
+      rows.forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var item = btn.closest('.item');
+          var isOpen = item.hasAttribute('data-open');
+
+          // un solo plato abierto a la vez (menú curado)
+          document.querySelectorAll('.item[data-open]').forEach(function(o){
+            if(o !== item){
+              o.removeAttribute('data-open');
+              o.querySelector('.row').setAttribute('aria-expanded','false');
+            }
+          });
+
+          if(isOpen){
+            item.removeAttribute('data-open');
+            btn.setAttribute('aria-expanded','false');
+          } else {
+            item.setAttribute('data-open','');
+            btn.setAttribute('aria-expanded','true');
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

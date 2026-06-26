@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>ghosttacoboy — el plan de esta noche</title>
+<meta name="description" content="Un plan distinto cada vez. Se adapta a la hora, al día y a la luna. Como yo." />
+<meta property="og:title" content="qué podemos hacer — ahora mismo" />
+<meta property="og:description" content="Se adapta a la hora, al día y a la luna. Distinto cada vez." />
+<meta property="og:image" content="../img/moon.jpg" />
+<meta name="theme-color" content="#0A0A0C" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --void:#0A0A0C; --ash:#131319; --line:#23232b;
+    --bone:#ECE8E1; --mute:#7f828c; --dim:#55576040;
+    --blood:#E11221; --glow:#FF2A1E;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--void); color:var(--bone);
+    font-family:"Space Mono",ui-monospace,monospace;
+    line-height:1.55; letter-spacing:.01em;
+    min-height:100svh; display:flex; flex-direction:column;
+    padding:max(22px,env(safe-area-inset-top)) 22px calc(30px + env(safe-area-inset-bottom));
+    max-width:520px; margin:0 auto; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  .top{display:flex; justify-content:space-between; align-items:baseline; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--mute)}
+  .brand{color:var(--bone); font-weight:700; letter-spacing:.04em; text-transform:none; font-size:14px}
+  #clock{color:var(--blood); font-variant-numeric:tabular-nums}
+
+  main{flex:1; display:flex; flex-direction:column; justify-content:center; padding:36px 0}
+  .kicker{font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--mute); margin-bottom:14px}
+  .kicker b{color:var(--bone)}
+
+  /* the plan card */
+  .plan{opacity:0; transform:translateY(10px)}
+  .plan.in{opacity:1; transform:none; transition:opacity .5s ease, transform .5s cubic-bezier(.16,1,.3,1)}
+  .act{font-family:"Bricolage Grotesque",system-ui,sans-serif; font-weight:800;
+       font-size:clamp(38px,13vw,60px); line-height:.98; letter-spacing:-.03em; margin:2px 0 18px}
+  .line{font-size:16px; color:#d7d4cc; margin-bottom:24px; max-width:30ch}
+  .meta{border-top:1px solid var(--line); padding-top:16px; display:grid; gap:9px; font-size:13.5px}
+  .meta .row{display:flex; gap:10px}
+  .meta .k{color:var(--mute); width:88px; flex:none; letter-spacing:.04em}
+  .meta .v{color:var(--bone)}
+  .meta .v .red{color:var(--blood)}
+
+  .controls{margin-top:30px; display:flex; flex-direction:column; gap:12px}
+  button{font-family:inherit; font-size:15px; cursor:pointer; border:1px solid var(--line);
+    background:transparent; color:var(--bone); padding:15px 18px; text-align:left;
+    display:flex; justify-content:space-between; align-items:center; gap:12px;
+    transition:border-color .2s ease, color .2s ease, background .2s ease; min-height:50px}
+  button .ic{color:var(--mute); transition:transform .3s ease, color .2s ease}
+  button:hover{border-color:#3a3a44}
+  button:hover .ic{color:var(--blood)}
+  button:focus-visible{outline:2px solid var(--glow); outline-offset:2px}
+  #reroll:active .ic{transform:rotate(180deg); color:var(--blood)}
+  .cta{border-color:var(--blood); color:#fff; background:#16060880}
+  .cta:hover{background:var(--blood)}
+
+  .note{font-size:12px; color:var(--mute); margin-top:22px; line-height:1.7}
+  .note .red{color:var(--blood)}
+  footer{font-size:11px; color:var(--mute); line-height:1.7; margin-top:26px; border-top:1px solid var(--line); padding-top:16px}
+  .tag{color:var(--blood)}
+
+  @media (prefers-reduced-motion: reduce){
+    .plan,.plan.in{transition:none!important; transform:none!important; opacity:1!important}
+    #reroll:active .ic{transform:none}
+  }
+</style>
+</head>
+<body>
+  <div class="top">
+    <span class="brand">ghosttacoboy</span>
+    <span>panamá · <span id="clock">--:--</span></span>
+  </div>
+
+  <main>
+    <p class="kicker" id="kicker">para <b>esta noche</b>, según la hora que es</p>
+    <div class="plan" id="plan" aria-live="polite">
+      <h1 class="act" id="act">…</h1>
+      <p class="line" id="line"></p>
+      <div class="meta">
+        <div class="row"><span class="k">banda sonora</span><span class="v" id="sound"></span></div>
+        <div class="row"><span class="k">dónde</span><span class="v" id="place"></span></div>
+        <div class="row"><span class="k">la luna</span><span class="v" id="moon"></span></div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="reroll">dame otro plan <span class="ic">↻</span></button>
+      <a href="https://instagram.com/ghosttacoboy" style="text-decoration:none"><button class="cta" tabindex="-1">si te late, escríbeme <span class="ic">→</span></button></a>
+    </div>
+
+    <p class="note">esto cambia cada vez. se adapta a la hora, al día y hasta a la luna.<br><span class="red">como yo</span> — depende de la noche.</p>
+  </main>
+
+  <footer>
+    <span class="tag">el man solitario™</span> · resultados no garantizados<br>
+    no tengo amigos (mentira, tengo uno)
+  </footer>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var pick=function(a){return a[Math.floor(Math.random()*a.length)]};
+
+  // ---- moon phase (approx illumination) ----
+  function moonInfo(d){
+    var synodic=29.530588853;
+    var ref=Date.UTC(2000,0,6,18,14); // known new moon
+    var days=(d.getTime()-ref)/86400000;
+    var age=((days%synodic)+synodic)%synodic;
+    var illum=(1-Math.cos(2*Math.PI*age/synodic))/2;
+    var full=illum>0.93, newm=illum<0.06;
+    var name= full?'llena': newm?'nueva': (age<synodic/2?'creciente':'menguante');
+    return {illum:illum, full:full, name:name};
+  }
+
+  var places=['la cinta costera','la calzada de amador','el casco viejo','vía argentina','un estacionamiento alto sobre la bahía','ningún lugar fijo — el carro y ya'];
+  var sounds=['lil peep, bajito','xxxtentacion','$uicideboy$ ralentizado','algo de metal pa despertar','una playlist sin nombre'];
+
+  // activity pools by context
+  var night=[
+    {a:'una vuelta sin rumbo', l:'el carro, la ciudad, ningún destino. no hablamos de eso.', s:['lil peep, bajito','una playlist sin nombre','$uicideboy$ ralentizado'], p:['la cinta costera','la calzada de amador','ningún lugar fijo — el carro y ya']},
+    {a:'sos la musa', l:'vos al frente del lente. yo atrás, que es donde me siento seguro.', s:['una playlist sin nombre','lil peep, bajito'], p:['el casco viejo','la calzada de amador','un estacionamiento alto sobre la bahía']},
+    {a:'misión antojo', l:'mcdonald’s, gasolinera, una lata de monster. cero glamour, máxima data.', s:['$uicideboy$ ralentizado','una playlist sin nombre'], p:['ningún lugar fijo — el carro y ya','vía argentina']},
+    {a:'nada', l:'callados, viendo la bahía. es mi especialidad.', s:['lil peep, bajito','una playlist sin nombre'], p:['un estacionamiento alto sobre la bahía','la cinta costera']}
+  ];
+  var lateNight=[
+    {a:'un drive a las 3am', l:'ventana abajo, la luna nos sigue. one day i’ll replay this.', s:['$uicideboy$ ralentizado','lil peep, bajito','una playlist sin nombre'], p:['la cinta costera','ningún lugar fijo — el carro y ya']},
+    {a:'nada', l:'a esta hora ya nadie habla. mejor.', s:['una playlist sin nombre'], p:['un estacionamiento alto sobre la bahía']}
+  ];
+  var weekendNight=[
+    {a:'luces rojas', l:'te llevo a donde el bajo no deja pensar. toque, disco, lo que caiga.', s:['algo de metal pa despertar','$uicideboy$ ralentizado'], p:['vía argentina','el casco viejo']}
+  ];
+
+  function buildPlan(){
+    var d=new Date();
+    var h=d.getHours(), day=d.getDay(); // 0 dom .. 6 sab
+    var weekend=(day===5||day===6); // vie/sab noche
+    var moon=moonInfo(d);
+    var isNight=(h>=19||h<7);
+    var pool;
+    if(!isNight){ return {day:true, h:h, moon:moon}; }
+    if(h>=2 && h<7){ pool=lateNight.concat(night); }
+    else if(weekend){ pool=weekendNight.concat(night, weekendNight); } // doble peso al fin de semana
+    else { pool=night.concat([lateNight[0]]); }
+    var c=pick(pool);
+    var plan={
+      day:false,
+      act:c.a,
+      line:c.l,
+      sound:pick(c.s||sounds),
+      place:pick(c.p||places),
+      moon:moon
+    };
+    return plan;
+  }
+
+  function moonText(m){
+    if(m.full) return 'llena. perfecta. te la muestro.';
+    if(m.name==='nueva') return 'nueva. no hay. mejor miramos otra cosa.';
+    return m.name+' ('+Math.round(m.illum*100)+'%).';
+  }
+
+  function render(p){
+    var plan=$('plan');
+    plan.classList.remove('in');
+    // force reflow for re-animate
+    void plan.offsetWidth;
+    if(p.day){
+      $('kicker').innerHTML='son las <b>'+String(p.h).padStart(2,'0')+':00</b>, de día';
+      $('act').textContent='de día no existo';
+      $('line').textContent='volvé después de medianoche. ahí es cuando esto sirve. igual, si insistís:';
+      $('sound').textContent='—';
+      $('place').textContent='tu cama, deberías estar durmiendo';
+      $('moon').textContent=moonText(p.moon);
+      $('reroll').firstChild.textContent='igual, sorprendeme ';
+    }else{
+      $('kicker').innerHTML='para <b>esta noche</b>, según la hora que es';
+      $('act').textContent=plan_label(p.act);
+      $('line').textContent=p.line;
+      $('sound').innerHTML=p.sound;
+      $('place').textContent=p.place;
+      $('moon').innerHTML=p.moon.full?('<span class="red">'+moonText(p.moon)+'</span>'):moonText(p.moon);
+      $('reroll').firstChild.textContent='dame otro plan ';
+    }
+    plan.classList.add('in');
+  }
+  function plan_label(a){return a;}
+
+  var lastDay=false;
+  function go(){
+    var p=buildPlan();
+    // if it's daytime, first reroll forces a night plan ("insistir")
+    if(p.day && lastDay){ p=forceNight(); }
+    lastDay=p.day;
+    render(p);
+  }
+  function forceNight(){
+    var c=pick(night.concat(lateNight, weekendNight));
+    var d=new Date();
+    return {day:false, act:c.a, line:c.l, sound:pick(c.s||sounds), place:pick(c.p||places), moon:moonInfo(d)};
+  }
+
+  // live clock
+  function tick(){
+    var d=new Date();
+    $('clock').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+  }
+  tick(); setInterval(tick,1000*20);
+
+  $('reroll').addEventListener('click', go);
+  go();
+})();
+</script>
+</body>
+</html>

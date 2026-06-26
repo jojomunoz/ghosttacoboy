@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ghosttacoboy — qué puedes hacer conmigo</title>
+<meta name="description" content="city lights, empty heart. siete formas de pasar la noche con un fotógrafo que prefiere estar detrás del lente.">
+<meta name="theme-color" content="#0A0A0C">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="qué puedes hacer conmigo">
+<meta property="og:description" content="city lights, empty heart. — ghosttacoboy">
+<meta property="og:image" content="../img/caja.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="qué puedes hacer conmigo">
+<meta name="twitter:description" content="city lights, empty heart. — ghosttacoboy">
+<meta name="twitter:image" content="../img/caja.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --void:#0A0A0C;
+    --panel:#0E0E12;
+    --panel-2:#101015;
+    --bone:#ECE8E1;
+    --blood:#E11221;
+    --glow:#FF2A1E;
+
+    --ink-1:rgba(236,232,225,0.94);
+    --ink-2:rgba(236,232,225,0.60);
+    --ink-3:rgba(236,232,225,0.36);
+    --line:rgba(236,232,225,0.11);
+    --line-soft:rgba(236,232,225,0.06);
+
+    --serif:"Instrument Serif", Georgia, "Times New Roman", serif;
+    --sans:"Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+    --gutter:clamp(22px, 6vw, 64px);
+    --maxw:1180px;
+
+    --shadow-soft:0 30px 80px -48px rgba(0,0,0,0.95);
+    --shadow-media:0 50px 130px -55px rgba(0,0,0,1), 0 10px 30px -20px rgba(0,0,0,0.8);
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+
+  *{box-sizing:border-box;}
+  html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
+
+  body{
+    margin:0;
+    background:var(--void);
+    color:var(--ink-1);
+    font-family:var(--sans);
+    font-weight:300;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+
+  /* faint cinematic film grain over everything */
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:60;
+    pointer-events:none;
+    opacity:.05;
+    mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  ::selection{ background:var(--blood); color:var(--bone); }
+
+  a{ color:inherit; text-decoration:none; }
+
+  :focus-visible{
+    outline:2px solid var(--glow);
+    outline-offset:4px;
+    border-radius:2px;
+  }
+
+  .wrap{ width:100%; max-width:var(--maxw); margin-inline:auto; padding-inline:var(--gutter); }
+
+  .eyebrow{
+    font-family:var(--sans);
+    font-weight:400;
+    font-size:.66rem;
+    letter-spacing:.34em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+  }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px var(--gutter);
+    padding-top:max(18px, env(safe-area-inset-top));
+    background:linear-gradient(to bottom, rgba(10,10,12,.72), rgba(10,10,12,0));
+    backdrop-filter:saturate(120%) blur(2px);
+  }
+  .topbar__brand{
+    font-family:var(--sans);
+    font-weight:500;
+    font-size:.84rem;
+    letter-spacing:.02em;
+    color:var(--ink-1);
+  }
+  .rec{
+    display:inline-flex; align-items:center; gap:.5em;
+    font-size:.6rem; letter-spacing:.3em; text-transform:uppercase; color:var(--ink-2);
+  }
+  .rec__dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--blood);
+    box-shadow:0 0 10px 1px rgba(225,18,33,.7);
+    animation:blink 2.6s var(--ease) infinite;
+  }
+  @keyframes blink{ 0%,72%,100%{opacity:1;} 80%,92%{opacity:.18;} }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:flex; flex-direction:column; justify-content:flex-end;
+    padding-bottom:clamp(40px,9vh,90px);
+    overflow:hidden;
+    isolation:isolate;
+  }
+  .hero__media{ position:absolute; inset:-8% 0 0 0; z-index:-2; will-change:transform; }
+  .hero__media img{
+    width:100%; height:108%; object-fit:cover; object-position:center 38%;
+    filter:saturate(.86) contrast(1.04) brightness(.74);
+  }
+  /* vignette + soft fade to black at bottom */
+  .hero__veil{
+    position:absolute; inset:0; z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(118% 78% at 50% 32%, rgba(10,10,12,0) 38%, rgba(10,10,12,.62) 100%),
+      linear-gradient(to bottom, rgba(10,10,12,.42) 0%, rgba(10,10,12,0) 26%, rgba(10,10,12,0) 46%, rgba(10,10,12,.86) 84%, var(--void) 100%);
+  }
+
+  .hero__inner{ position:relative; }
+  .hero__kicker{ display:flex; align-items:center; gap:.9em; margin-bottom:clamp(20px,4vh,34px); }
+  .hero__kicker .ln{ height:1px; width:42px; background:var(--blood); opacity:.85; }
+
+  .hero__title{
+    font-family:var(--serif);
+    font-optical-sizing:auto;
+    font-weight:400;
+    font-size:clamp(2.7rem, 12.5vw, 6.6rem);
+    line-height:.96;
+    letter-spacing:-0.022em;
+    margin:0;
+    color:var(--bone);
+    max-width:14ch;
+    text-wrap:balance;
+  }
+  .hero__title em{ font-style:italic; font-weight:400; }
+
+  .hero__tag{
+    margin:clamp(20px,4vh,30px) 0 0;
+    font-family:var(--sans);
+    font-weight:300;
+    font-size:clamp(.95rem,3.6vw,1.18rem);
+    letter-spacing:.01em;
+    color:var(--ink-2);
+  }
+  .hero__tag b{ color:var(--ink-1); font-weight:400; }
+
+  .hero__cue{
+    margin-top:clamp(30px,6vh,48px);
+    display:inline-flex; align-items:center; gap:.7em;
+    font-size:.62rem; letter-spacing:.3em; text-transform:uppercase; color:var(--ink-3);
+  }
+  .hero__cue .bar{ position:relative; width:34px; height:1px; background:var(--line); overflow:hidden; }
+  .hero__cue .bar::after{
+    content:""; position:absolute; inset:0; left:-100%;
+    background:linear-gradient(90deg, transparent, var(--bone), transparent);
+    animation:slide 3.4s var(--ease) infinite;
+  }
+  @keyframes slide{ 0%{left:-100%;} 60%,100%{left:100%;} }
+
+  /* ---------- menu intro ---------- */
+  .intro{ padding:clamp(74px,15vh,150px) 0 clamp(30px,6vh,54px); }
+  .intro__row{ display:flex; align-items:baseline; justify-content:space-between; gap:1rem; margin-bottom:26px; }
+  .intro h2{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(1.9rem,7vw,3.1rem);
+    line-height:1.02;
+    letter-spacing:-0.02em;
+    margin:.4em 0 0;
+    color:var(--bone);
+  }
+  .intro p{
+    max-width:46ch; margin:1.1em 0 0;
+    color:var(--ink-2); font-size:.98rem;
+  }
+  .count{ font-family:var(--serif); font-style:italic; font-size:.95rem; color:var(--ink-3); white-space:nowrap; }
+
+  /* ---------- courses ---------- */
+  .menu{ padding-bottom:clamp(40px,8vh,70px); }
+  .course{
+    padding:clamp(34px,7vh,64px) 0;
+    border-top:1px solid var(--line-soft);
+    display:grid;
+    grid-template-columns:1fr;
+    gap:clamp(22px,5vw,40px);
+    align-items:center;
+  }
+
+  .course__media{
+    position:relative;
+    margin:0;
+    border-radius:3px;
+    overflow:hidden;
+    background:var(--panel);
+    border:1px solid var(--line);
+    box-shadow:var(--shadow-media);
+    aspect-ratio:4/5;
+  }
+  .course__media img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    filter:saturate(.9) contrast(1.03) brightness(.84);
+    transform:scale(1.02);
+    transition:transform 1.1s var(--ease), filter 1.1s var(--ease);
+  }
+  .course__media::after{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:
+      radial-gradient(120% 90% at 50% 30%, rgba(0,0,0,0) 50%, rgba(0,0,0,.4) 100%),
+      linear-gradient(to top, rgba(10,10,12,.5), rgba(10,10,12,0) 45%);
+  }
+  .course:hover .course__media img{ transform:scale(1.06); filter:saturate(1) contrast(1.05) brightness(.9); }
+
+  .course__body{ padding-right:2px; }
+  .course__head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:1rem;
+    padding-bottom:14px; margin-bottom:16px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .course__title{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(1.6rem,6vw,2.35rem);
+    line-height:1.04;
+    letter-spacing:-0.018em;
+    margin:0;
+    color:var(--bone);
+    text-transform:lowercase;
+  }
+  .course__time{
+    flex:none;
+    font-family:var(--sans); font-weight:400;
+    font-size:.74rem; letter-spacing:.16em;
+    color:var(--ink-2);
+    font-variant-numeric:tabular-nums;
+    padding-top:.35em;
+  }
+  .course__time .lab{ display:block; font-size:.54rem; letter-spacing:.3em; text-transform:uppercase; color:var(--ink-3); margin-bottom:.45em; text-align:right; }
+  .course__time .val{ display:block; text-align:right; color:var(--ink-1); font-size:1.02rem; letter-spacing:.1em; }
+  .course__line{
+    margin:0; max-width:42ch;
+    color:var(--ink-2);
+    font-size:1.02rem; line-height:1.62;
+  }
+  .course__line em{ font-style:normal; color:var(--ink-1); }
+
+  /* ---------- finale (nada) ---------- */
+  .finale{
+    position:relative; isolation:isolate;
+    margin-top:clamp(20px,4vh,40px);
+    border-top:1px solid var(--line-soft);
+    padding:clamp(64px,14vh,140px) 0;
+    text-align:center;
+    overflow:hidden;
+  }
+  .finale::before{
+    content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+    background:radial-gradient(80% 70% at 50% 42%, rgba(255,42,30,.05) 0%, rgba(255,42,30,0) 60%);
+  }
+  .finale__no{ color:var(--ink-3); }
+  .finale__title{
+    font-family:var(--serif);
+    font-weight:400;
+    font-style:italic;
+    font-size:clamp(3.6rem,22vw,9rem);
+    line-height:.9;
+    letter-spacing:-0.03em;
+    margin:.28em 0 .14em;
+    color:var(--bone);
+  }
+  .finale__line{
+    margin:0 auto; max-width:30ch;
+    color:var(--ink-2); font-size:clamp(1rem,4vw,1.18rem); line-height:1.6;
+  }
+  .finale__time{
+    margin-top:clamp(22px,5vh,34px);
+    display:inline-flex; flex-direction:column; align-items:center; gap:.5em;
+  }
+  .finale__time .lab{ font-size:.56rem; letter-spacing:.32em; text-transform:uppercase; color:var(--ink-3); }
+  .finale__time .val{ font-family:var(--serif); font-style:italic; font-size:1.2rem; color:var(--ink-1); }
+
+  /* ---------- cta ---------- */
+  .cta{ text-align:center; padding:clamp(60px,12vh,120px) 0 clamp(40px,8vh,70px); border-top:1px solid var(--line-soft); }
+  .cta__small{ margin-bottom:clamp(22px,4vh,32px); }
+  .cta__link{
+    position:relative;
+    display:inline-flex; align-items:center; gap:.7em;
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(1.5rem,7vw,2.6rem);
+    line-height:1.1;
+    letter-spacing:-0.02em;
+    color:var(--bone);
+    padding:.15em 0;
+  }
+  .cta__link .arw{
+    display:inline-grid; place-items:center;
+    width:1.15em; height:1.15em; flex:none;
+    border:1px solid var(--line);
+    border-radius:50%;
+    font-size:.62em;
+    transition:transform .5s var(--ease), border-color .5s var(--ease), background .5s var(--ease), color .5s var(--ease);
+  }
+  .cta__underline{
+    display:block; height:1px; width:100%;
+    margin-top:.35em;
+    background:linear-gradient(90deg, var(--blood), var(--glow));
+    transform:scaleX(0); transform-origin:left;
+    transition:transform .6s var(--ease);
+  }
+  .cta__link:hover .arw, .cta__link:focus-visible .arw{ transform:translate(3px,-3px); background:var(--blood); border-color:var(--blood); color:var(--bone); }
+  .cta__link:hover .cta__underline, .cta__link:focus-visible .cta__underline{ transform:scaleX(1); }
+  .cta__handle{ display:block; margin-top:18px; font-size:.72rem; letter-spacing:.26em; text-transform:uppercase; color:var(--ink-3); }
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top:1px solid var(--line-soft);
+    padding:clamp(38px,7vh,60px) 0 calc(clamp(38px,7vh,60px) + env(safe-area-inset-bottom));
+  }
+  .foot__brand{ font-family:var(--serif); font-style:italic; font-size:1.1rem; color:var(--ink-2); margin-bottom:14px; }
+  .foot__copy{ font-size:.74rem; line-height:1.9; letter-spacing:.02em; color:var(--ink-3); max-width:50ch; }
+  .foot__meta{ margin-top:18px; font-size:.6rem; letter-spacing:.3em; text-transform:uppercase; color:var(--ink-3); }
+
+  /* ---------- reveal ---------- */
+  .reveal{ opacity:0; transform:translateY(26px); transition:opacity 1s var(--ease), transform 1s var(--ease); }
+  .reveal.is-in{ opacity:1; transform:none; }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1 !important; transform:none !important; transition:none; }
+    .rec__dot, .hero__cue .bar::after{ animation:none; }
+    .course__media img{ transition:none; }
+  }
+
+  /* ---------- scale up: editorial spreads ---------- */
+  @media (min-width:760px){
+    .course{
+      grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+      gap:clamp(40px,5vw,72px);
+    }
+    .course:nth-child(even) .course__media{ order:2; }
+    .course__media{ aspect-ratio:3/4; }
+  }
+  @media (min-width:1080px){
+    .course__media{ aspect-ratio:4/5; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="topbar">
+    <span class="topbar__brand">ghosttacoboy</span>
+    <span class="rec"><span class="rec__dot" aria-hidden="true"></span>rec</span>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" aria-label="intro">
+    <div class="hero__media" id="heroMedia">
+      <img src="../img/drive.jpg" alt="Carretera nocturna vista desde el carro" fetchpriority="high" width="900" height="1200">
+    </div>
+    <div class="hero__veil" aria-hidden="true"></div>
+
+    <div class="wrap hero__inner">
+      <div class="hero__kicker">
+        <span class="ln" aria-hidden="true"></span>
+        <span class="eyebrow">panamá · de noche</span>
+      </div>
+      <h1 class="hero__title">qué puedes<br>hacer <em>conmigo</em></h1>
+      <p class="hero__tag"><b>city lights, empty heart.</b></p>
+      <span class="hero__cue"><span class="bar" aria-hidden="true"></span>el menú</span>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <div class="wrap">
+      <div class="intro__row reveal">
+        <span class="eyebrow">la carta</span>
+        <span class="count">siete platos, una sola noche</span>
+      </div>
+      <h2 class="reveal">no es una cita. es una sesión.</h2>
+      <p class="reveal">siete formas de gastar la madrugada conmigo. cada una tiene su hora. ninguna tiene explicación larga — para eso está el silencio.</p>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <main class="menu">
+    <div class="wrap">
+
+      <!-- 01 -->
+      <article class="course reveal">
+        <figure class="course__media">
+          <img src="../img/drive.jpg" alt="La ciudad pasando desde la ventana del carro" loading="lazy" width="800" height="1000">
+        </figure>
+        <div class="course__body">
+          <div class="course__head">
+            <h3 class="course__title">vuelta sin rumbo</h3>
+            <span class="course__time"><span class="lab">hora</span><span class="val">23:00</span></span>
+          </div>
+          <p class="course__line">el carro, la ciudad, ningún destino. <em>no hablamos de eso.</em></p>
+        </div>
+      </article>
+
+      <!-- 02 -->
+      <article class="course reveal">
+        <figure class="course__media">
+          <img src="../img/room.jpg" alt="Cuarto oscuro con TV de tubo en estática y cojines de rosas" loading="lazy" width="800" height="1000">
+        </figure>
+        <div class="course__body">
+          <div class="course__head">
+            <h3 class="course__title">sos la musa</h3>
+            <span class="course__time"><span class="lab">hora</span><span class="val">∞</span></span>
+          </div>
+          <p class="course__line">vos al frente del lente. <em>yo atrás, que es donde me siento seguro.</em></p>
+        </div>
+      </article>
+
+      <!-- 03 -->
+      <article class="course reveal">
+        <figure class="course__media">
+          <img src="../img/club.jpg" alt="Concierto con luz roja, multitud y un camcorder grabando" loading="lazy" width="800" height="1000">
+        </figure>
+        <div class="course__body">
+          <div class="course__head">
+            <h3 class="course__title">luces rojas</h3>
+            <span class="course__time"><span class="lab">hora</span><span class="val">02:00</span></span>
+          </div>
+          <p class="course__line">te llevo a donde el bajo no deja pensar. <em>toque, disco, lo que caiga.</em></p>
+        </div>
+      </article>
+
+      <!-- 04 -->
+      <article class="course reveal">
+        <figure class="course__media">
+          <img src="../img/caja.jpg" alt="Letrero rojo de supermercado que dice CAJA CERRADA" loading="lazy" width="800" height="1000">
+        </figure>
+        <div class="course__body">
+          <div class="course__head">
+            <h3 class="course__title">caja cerrada</h3>
+            <span class="course__time"><span class="lab">hora</span><span class="val">—</span></span>
+          </div>
+          <p class="course__line">te explico por qué le tomo foto a un letrero de súper. <em>nadie más entiende esto.</em></p>
+        </div>
+      </article>
+
+      <!-- 05 -->
+      <article class="course reveal">
+        <figure class="course__media">
+          <img src="../img/moon.jpg" alt="Luna llena entre ramas de árboles" loading="lazy" width="800" height="1000">
+        </figure>
+        <div class="course__body">
+          <div class="course__head">
+            <h3 class="course__title">drive a las 3am</h3>
+            <span class="course__time"><span class="lab">hora</span><span class="val">03:00</span></span>
+          </div>
+          <p class="course__line">ventana abajo, la luna nos sigue. <em>one day i'll replay this.</em></p>
+        </div>
+      </article>
+
+      <!-- 06 -->
+      <article class="course reveal">
+        <figure class="course__media">
+          <img src="../img/highway.jpg" alt="Autopista nublada y melancólica vista desde el carro" loading="lazy" width="800" height="1000">
+        </figure>
+        <div class="course__body">
+          <div class="course__head">
+            <h3 class="course__title">misión antojo</h3>
+            <span class="course__time"><span class="lab">hora</span><span class="val">01:30</span></span>
+          </div>
+          <p class="course__line">mcdonald's, gasolinera, una lata de monster. <em>cero glamour, máxima data.</em></p>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- 07 — finale, sin foto -->
+    <section class="finale reveal" aria-label="la especialidad">
+      <div class="wrap">
+        <span class="eyebrow finale__no">la especialidad de la casa</span>
+        <h3 class="finale__title">nada</h3>
+        <p class="finale__line">callados, viendo la bahía. <strong style="color:var(--ink-1);font-weight:400;">es mi especialidad.</strong></p>
+        <span class="finale__time"><span class="lab">hora</span><span class="val">siempre</span></span>
+      </div>
+    </section>
+  </main>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="wrap">
+      <div class="eyebrow cta__small reveal">fin de la carta</div>
+      <a class="cta__link reveal" href="https://instagram.com/ghosttacoboy" target="_blank" rel="noopener noreferrer">
+        <span>si llegaste hasta acá, escríbeme</span>
+        <span class="arw" aria-hidden="true">↗</span>
+        <span class="cta__underline" aria-hidden="true"></span>
+      </a>
+      <span class="cta__handle reveal">@ghosttacoboy</span>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="foot__brand reveal">ghosttacoboy</div>
+      <p class="foot__copy reveal">el man solitario™ · resultados no garantizados · no tengo amigos (mentira, tengo uno)</p>
+      <div class="foot__meta reveal">city lights, empty heart.</div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var els = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+
+      if (reduce || !("IntersectionObserver" in window)) {
+        els.forEach(function(el){ el.classList.add("is-in"); });
+      } else {
+        var io = new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if (e.isIntersecting){ e.target.classList.add("is-in"); io.unobserve(e.target); }
+          });
+        }, { rootMargin:"0px 0px -10% 0px", threshold:0.12 });
+        els.forEach(function(el){ io.observe(el); });
+
+        // subtle cinematic hero parallax
+        var hero = document.getElementById("heroMedia");
+        var ticking = false;
+        function onScroll(){
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(function(){
+            var y = window.pageYOffset || 0;
+            if (y < window.innerHeight){ hero.style.transform = "translate3d(0," + (y * 0.18) + "px,0)"; }
+            ticking = false;
+          });
+        }
+        window.addEventListener("scroll", onScroll, { passive:true });
+      }
+    })();
+  </script>
+</body>
+</html>
